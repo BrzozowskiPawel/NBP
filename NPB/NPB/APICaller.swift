@@ -28,7 +28,17 @@ class APICaller {
         let dataTask = session.dataTask(with: url!) { data, response, error in
             // Chcech that there are no errors and there is data
             if error == nil && data != nil {
-                print(data!)
+                // Attempt to parse the JSON
+                let decoder = JSONDecoder()
+                do {
+                    // Parse the JSON into the desired structure
+                    let APIResponse = try decoder.decode([APIData].self, from: data!)
+                    print(APIResponse.count)
+                    print(APIResponse[0].rates.count)
+                    
+                } catch {
+                    print("Sorry there was and error while decoding JSON")
+                }
             }
         }
         // Start the data task

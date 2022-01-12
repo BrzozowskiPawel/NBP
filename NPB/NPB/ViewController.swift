@@ -9,13 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let MyAPICaller = APICaller()
+    let myAPICaller = APICaller()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        MyAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/A/?format=json")
+        myAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/A/?format=json")
     }
 
 
