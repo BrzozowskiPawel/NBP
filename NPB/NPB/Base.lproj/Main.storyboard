@@ -19,10 +19,13 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EMA-bI-5O3">
                                 <rect key="frame" x="0.0" y="44" width="414" height="32"/>
                                 <segments>
-                                    <segment title="A"/>
-                                    <segment title="B"/>
-                                    <segment title="C"/>
+                                    <segment title="Main"/>
+                                    <segment title="Additional"/>
+                                    <segment title="Exchange rates"/>
                                 </segments>
+                                <connections>
+                                    <action selector="tableTapeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="luw-LU-YlW"/>
+                                </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxO-Ok-tyS">
                                 <rect key="frame" x="0.0" y="75" width="414" height="80"/>
@@ -72,6 +75,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="descriptionLabel" destination="pDE-jz-Nhj" id="Afz-rX-QSE"/>
+                        <outlet property="tableTypeSegmentedController" destination="EMA-bI-5O3" id="OjZ-oK-mMg"/>
                         <outlet property="tableView" destination="FFi-T1-lHt" id="2Zt-Lr-idC"/>
                     </connections>
                 </viewController>

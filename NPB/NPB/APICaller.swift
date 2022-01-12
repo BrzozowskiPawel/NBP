@@ -41,9 +41,6 @@ class APICaller {
                     
                     // Everything connected with UI should be in main thread
                     DispatchQueue.main.async {
-                        // Temporary print info about data:
-                        print("Dowloaded \(APIResponse[0].rates.count) currencies")
-                        
                         // Parse the returned JSON into article instances and pass it back to the view controller with the protocol and deleagte pattern
                         self.delegate?.dataRetrieved(APIResponse[0])
                     }

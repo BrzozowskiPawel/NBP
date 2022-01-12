@@ -10,7 +10,8 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
     // Instance of API caller.
     let myAPICaller = APICaller()
@@ -30,17 +31,57 @@ class ViewController: UIViewController {
         // Setup APIcaller
         myAPICaller.delegate = self
         
-        // Default case - fetch data for table A
-        fetchDataFromAPI(tabletype: "A")
+        // Default case - fetch data for table 0 (table with main currencies).
+        fetchDataFromAPI(segmentedControlIndex: 0)
     }
 
     // Functions that fetch data from API.
-    func fetchDataFromAPI(tabletype: String) {
+    func fetchDataFromAPI(segmentedControlIndex: Int) {
+        var tabletype = ""
+        switch segmentedControlIndex {
+        case 0:
+            tabletype = "A"
+        case 1:
+            tabletype = "B"
+        case 2:
+            tabletype = "C"
+        default:
+            return
+        }
         let stringURL = "https://api.nbp.pl/api/exchangerates/tables/"+tabletype+"/?format=json"
         myAPICaller.getData(from: stringURL)
         
+        setDescriptionLabel(segmentedControlIndex: segmentedControlIndex)
     }
     
+    // Set proper value for description label.
+    func setDescriptionLabel(segmentedControlIndex: Int) {
+        switch segmentedControlIndex {
+        case 0:
+            descriptionLabel.text = "Main currency table."
+        case 1:
+            descriptionLabel.text = "Additional currency table."
+        case 2:
+            descriptionLabel.text = "Exchange rates table."
+        default:
+            return
+        }
+    }
+    
+    
+    
+    @IBAction func tableTapeChanged(_ sender: UISegmentedControl) {
+        switch tableTypeSegmentedController.selectedSegmentIndex {
+        case 0:
+            fetchDataFromAPI(segmentedControlIndex: 0)
+        case 1:
+            fetchDataFromAPI(segmentedControlIndex: 1)
+        case 2:
+            fetchDataFromAPI(segmentedControlIndex: 2)
+        default:
+            return
+        }
+    }
     
 
 }
