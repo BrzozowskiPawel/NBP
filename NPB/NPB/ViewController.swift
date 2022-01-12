@@ -27,11 +27,21 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        // Setup APIcaller and make an request.
+        // Setup APIcaller
         myAPICaller.delegate = self
-        myAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/C/?format=json")
+        
+        // Default case - fetch data for table A
+        fetchDataFromAPI(tabletype: "A")
     }
 
+    // Functions that fetch data from API.
+    func fetchDataFromAPI(tabletype: String) {
+        let stringURL = "https://api.nbp.pl/api/exchangerates/tables/"+tabletype+"/?format=json"
+        myAPICaller.getData(from: stringURL)
+        
+    }
+    
+    
 
 }
 
