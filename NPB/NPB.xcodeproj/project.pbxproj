@@ -64,11 +64,11 @@
 				04B451FC278F4195001D1CD3 /* SceneDelegate.swift */,
 				04B451FE278F4195001D1CD3 /* ViewController.swift */,
 				04B4520E278F4788001D1CD3 /* APICaller.swift */,
+				04B45211278F49E3001D1CD3 /* Models.swift */,
 				04B45200278F4195001D1CD3 /* Main.storyboard */,
 				04B45203278F4196001D1CD3 /* Assets.xcassets */,
 				04B45205278F4196001D1CD3 /* LaunchScreen.storyboard */,
 				04B45208278F4196001D1CD3 /* Info.plist */,
-				04B45211278F49E3001D1CD3 /* Models.swift */,
 			);
 			path = NPB;
 			sourceTree = "<group>";
