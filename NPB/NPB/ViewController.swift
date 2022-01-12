@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
+    let refreshControl = UIRefreshControl()
+    var refreshingIsActive = false
+    
     // Instance of API caller.
     let myAPICaller = APICaller()
     
@@ -32,7 +35,20 @@ class ViewController: UIViewController {
         myAPICaller.delegate = self
         
         // Default case - fetch data for table 0 (table with main currencies).
-        fetchDataFromAPI(segmentedControlIndex: 0)
+        fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
+        
+        //
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        // Code to refresh table view
+        refreshingIsActive = true
+        
+        print("REFRESHING")
+        fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
     }
 
     // Functions that fetch data from API.
@@ -121,5 +137,10 @@ extension ViewController: APIProtocol {
         
         // Reloading tableView after getting data
         tableView.reloadData()
+        
+        if refreshingIsActive {
+            refreshingIsActive.toggle()
+            refreshControl.endRefreshing()
+        }
     }
 }
