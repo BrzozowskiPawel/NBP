@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         
         // Setup APIcaller and make an request.
         myAPICaller.delegate = self
-        myAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/A/?format=json")
+        myAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/C/?format=json")
     }
 
 

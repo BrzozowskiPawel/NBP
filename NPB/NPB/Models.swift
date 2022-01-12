@@ -18,4 +18,6 @@ struct currencyModel: Codable {
     let currency: String
     let code: String
     let mid: Double?
+    let bid: Double?
+    let ask: Double?
 }
