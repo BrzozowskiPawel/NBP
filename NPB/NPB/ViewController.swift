@@ -9,6 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     // Instance of API caller.
     let myAPICaller = APICaller()
     
@@ -20,6 +23,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        // Set the ViewCotroller as the datasoruce and delgate of TableView
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // Setup APIcaller and make an request.
         myAPICaller.delegate = self
         myAPICaller.getData(from: "https://api.nbp.pl/api/exchangerates/tables/A/?format=json")
     }
@@ -28,6 +36,24 @@ class ViewController: UIViewController {
 }
 
 // MARK: - Article Model Protocool/ Delgate Methods
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currencyArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NBPCell", for: indexPath)
+        
+        cell.textLabel?.text = currencyArray[indexPath.row].currency
+        
+        return cell
+    }
+    
+    
+    
+}
+
+// MARK: - API Protocool-Delgate Methods
 
 // Adapt APIProtocol to retrieve data from APICaller
 extension ViewController: APIProtocol {
@@ -38,7 +64,11 @@ extension ViewController: APIProtocol {
         self.currencyArray = retrievedData.rates
         self.dataDowloadedDate = retrievedData.effectiveDate
         
+        // Temporary give info about API call.
         print("VC: number of currencies: \(currencyArray.count)")
         print("VC: date of dowloaded data: \(dataDowloadedDate)")
+        
+        // Reloading tableView after getting data
+        tableView.reloadData()
     }
 }
