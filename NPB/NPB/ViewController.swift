@@ -13,8 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
+    // Refreshing variables.
     let refreshControl = UIRefreshControl()
-    var refreshingIsActive = false
+    var refreshingIsActive = false // This flag is responsible for turning on and off refresh spinner insde of tableView
     
     // Instance of API caller.
     let myAPICaller = APICaller()
@@ -43,11 +44,12 @@ class ViewController: UIViewController {
         tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
+    // Function to handle refreshing.
     @objc func refresh(_ sender: AnyObject) {
-        // Code to refresh table view
+        // Set a flag for refreshing.
         refreshingIsActive = true
         
-        print("REFRESHING")
+        // Fetch new data, reload tableView and turn off the refresh spinner inside tableviews.
         fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
     }
 
@@ -64,9 +66,11 @@ class ViewController: UIViewController {
         default:
             return
         }
+        // Create a valid string URL and perform a request.
         let stringURL = "https://api.nbp.pl/api/exchangerates/tables/"+tabletype+"/?format=json"
         myAPICaller.getData(from: stringURL)
         
+        // Update a description label acording to selected table.
         setDescriptionLabel(segmentedControlIndex: segmentedControlIndex)
     }
     
@@ -85,7 +89,7 @@ class ViewController: UIViewController {
     }
     
     
-    
+    // Dowload data from API acording to table type.
     @IBAction func tableTapeChanged(_ sender: UISegmentedControl) {
         switch tableTypeSegmentedController.selectedSegmentIndex {
         case 0:
@@ -104,6 +108,7 @@ class ViewController: UIViewController {
 
 // MARK: - Article Model Protocool/ Delgate Methods
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currencyArray.count
     }
