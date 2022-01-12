@@ -13,6 +13,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
+    // Spiner to show dowloading at the beggining
+    var spinner = UIActivityIndicatorView(style: .large)
+    
+    
     // Refreshing variables.
     let refreshControl = UIRefreshControl()
     var refreshingIsActive = false // This flag is responsible for turning on and off refresh spinner insde of tableView
@@ -38,7 +42,7 @@ class ViewController: UIViewController {
         // Default case - fetch data for table 0 (table with main currencies).
         fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
         
-        //
+        // Create a pull to refresh
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshControl) // not required when using UITableViewController
@@ -52,9 +56,29 @@ class ViewController: UIViewController {
         // Fetch new data, reload tableView and turn off the refresh spinner inside tableviews.
         fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
     }
+    
+    // Create a dowload spinner
+    func createAndStartDowloadSpinner() {
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
 
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    func stopAndDestroySpinner() {
+        spinner.stopAnimating()
+        spinner.removeFromSuperview()
+    }
+    
     // Functions that fetch data from API.
     func fetchDataFromAPI(segmentedControlIndex: Int) {
+        // If it's not a refresh then show dowloading spinner
+        if !refreshingIsActive {
+            createAndStartDowloadSpinner()
+        }
+        
         var tabletype = ""
         switch segmentedControlIndex {
         case 0:
@@ -143,9 +167,12 @@ extension ViewController: APIProtocol {
         // Reloading tableView after getting data
         tableView.reloadData()
         
+        // Toggle spinner flag and turn off spinner
         if refreshingIsActive {
             refreshingIsActive.toggle()
             refreshControl.endRefreshing()
+        } else {
+            stopAndDestroySpinner()
         }
     }
 }
