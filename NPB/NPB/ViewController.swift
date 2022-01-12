@@ -10,7 +10,6 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
     // Spiner to show dowloading at the beggining
@@ -67,6 +66,7 @@ class ViewController: UIViewController {
         spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
+    // Destroy a dowload spinner
     func stopAndDestroySpinner() {
         spinner.stopAnimating()
         spinner.removeFromSuperview()
@@ -93,23 +93,6 @@ class ViewController: UIViewController {
         // Create a valid string URL and perform a request.
         let stringURL = "https://api.nbp.pl/api/exchangerates/tables/"+tabletype+"/?format=json"
         myAPICaller.getData(from: stringURL)
-        
-        // Update a description label acording to selected table.
-        setDescriptionLabel(segmentedControlIndex: segmentedControlIndex)
-    }
-    
-    // Set proper value for description label.
-    func setDescriptionLabel(segmentedControlIndex: Int) {
-        switch segmentedControlIndex {
-        case 0:
-            descriptionLabel.text = "Main currency table."
-        case 1:
-            descriptionLabel.text = "Additional currency table."
-        case 2:
-            descriptionLabel.text = "Exchange rates table."
-        default:
-            return
-        }
     }
     
     
