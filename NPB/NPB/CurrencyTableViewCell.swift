@@ -69,11 +69,13 @@ class CurrencyTableViewCell: UITableViewCell {
         } else {
             print("Cell type C")
             // Here averageRateLabel is ask price and date1 is bid price. The dtae is shown via date2 label
-            averageRateLabel.text = String(format: "%.4f", currencyToDisplay!.ask!)
+            averageRateLabel.text = "Ask: " + String(format: "%.4f", currencyToDisplay!.ask!)
             averageRateLabel.alpha = 1
+            averageRateLabel.textColor = .systemRed
             
-            date1Label.text = String(format: "%.4f", currencyToDisplay!.bid!)
+            date1Label.text = "Bid: " + String(format: "%.4f", currencyToDisplay!.bid!)
             date1Label.alpha = 1
+            date1Label.textColor = .systemGreen
             
             if let dateOfDownloading = dateOfDownloading {
                 date2Label.text = dateOfDownloading
@@ -94,6 +96,9 @@ class CurrencyTableViewCell: UITableViewCell {
         averageRateLabel.alpha = 0
         date1Label.alpha = 0
         date2Label.alpha = 0
+        
+        averageRateLabel.textColor = .black
+        date1Label.textColor = .black
     }
 
 }
