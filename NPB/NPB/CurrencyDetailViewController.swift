@@ -34,7 +34,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
 
         // Set the title
         if let currencyToDisplay = currencyToDisplay {
-            self.title = currencyToDisplay.currency
+            self.title = currencyToDisplay.currency.uppercased()
         }
         
         // Setup APIcaller

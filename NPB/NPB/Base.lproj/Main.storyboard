@@ -61,9 +61,9 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EMA-bI-5O3">
                                 <rect key="frame" x="0.0" y="88" width="414" height="32"/>
                                 <segments>
-                                    <segment title="Główne"/>
-                                    <segment title="Dodatkowe"/>
-                                    <segment title="Kurs wymiany"/>
+                                    <segment title="Main"/>
+                                    <segment title="Additional"/>
+                                    <segment title="Exchange rates"/>
                                 </segments>
                                 <connections>
                                     <action selector="tableTapeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="luw-LU-YlW"/>
