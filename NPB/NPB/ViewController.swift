@@ -164,7 +164,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let tableIndex = tableTypeSegmentedController.selectedSegmentIndex
         
         // Cusotmize cell
-        cell.displayCurrencyCell(curentCurrency: curentCurrency, downloadDate: dowloadedData, segmentedControlIndex: tableIndex)
+        cell.displayCurrencyCell(curentCurrency: curentCurrency, downloadDate: dowloadedData, segmentedControlIndexValue: tableIndex)
         
         // return the cell
         return cell

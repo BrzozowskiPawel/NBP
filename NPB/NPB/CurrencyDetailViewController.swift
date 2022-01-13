@@ -12,6 +12,9 @@ class CurrencyDetailViewController: UIViewController {
     // Storing data abour currency to dispaly
     var currencyToDisplay: currencyModel?
     
+    // Instance of API caller.
+    let myAPICaller = APICaller()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,17 +22,23 @@ class CurrencyDetailViewController: UIViewController {
         if let currencyToDisplay = currencyToDisplay {
             self.title = currencyToDisplay.currency
         }
+        
+        // Setup APIcaller
+        myAPICaller.delegate = self
+        
+        // Dowload timeline rates
+        // Create a valid string URL and perform a request.
+        let stringURL = "https://api.nbp.pl/api/exchangerates/rates/a/gbp/2022-01-01/2022-01-12/?format=json"
+        myAPICaller.getData(from: stringURL)
     }
     
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension CurrencyDetailViewController: APIProtocol {
+    func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
+        if let retrievedTimelinetData = retrievedTimelinetData {
+            print(retrievedTimelinetData)
+        }
     }
-    */
-
 }

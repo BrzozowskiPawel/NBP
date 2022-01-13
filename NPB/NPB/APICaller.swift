@@ -20,15 +20,20 @@ class APICaller {
         // Create a URL object
         let url = URL(string: urlString)
         
-        // By default use ris reguesting A, B or C table from API
-        var timelineRatesReguest = false
+        // By default this should request for A, B or C table from API - it's a standart request
+        // That's why timelineReguest flag is set to false.
+        //
+        // But API link contains https://api.nbp.pl/api/exchangeRATES so to check if it's a timeline reguest I try to find "tables" instead of "rates" in it.
+        // If there ISN'T "table" insde, this mean it's a timeline reguest
+        var notTimelineReguest = false
         
         // If link is directing to the rates data, change this parametr.
         // Changing reatesrequest to true will use different struct with JSON decodin.
-        if urlString.contains("rates") {
+        if urlString.contains("tables") {
             print("RATES TYPE REQUEST")
-            timelineRatesReguest = true
+            notTimelineReguest = true
         }
+        
         
         // Check that it isnt nil
         guard url != nil else {
@@ -47,7 +52,7 @@ class APICaller {
                 let decoder = JSONDecoder()
                 do {
                     // Parse the JSON into the desired structure.
-                    if timelineRatesReguest {
+                    if notTimelineReguest {
                         print("Standart request")
                         let APIResponseStandart = try decoder.decode([APIData].self, from: data!)
                         
@@ -57,8 +62,8 @@ class APICaller {
                             // Std response is a list of APIData structs. Hoever only first item contains data.
                             self.delegate?.dataRetrieved(APIResponseStandart[0], retrievedTimelinetData: nil)
                         }
-                        
-                    } else {
+                    }
+                    else {
                         print("Timeline request")
                         let APIResponseTimeline = try decoder.decode(APIDataTimeline.self, from: data!)
                         

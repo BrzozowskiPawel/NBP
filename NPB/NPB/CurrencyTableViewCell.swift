@@ -37,7 +37,7 @@ class CurrencyTableViewCell: UITableViewCell {
     }
     
     // Configure cell to display it properly.
-    func displayCurrencyCell(curentCurrency currency: currencyModel, downloadDate date: String, segmentedControlIndex segmentedControlIndex: Int) {
+    func displayCurrencyCell(curentCurrency currency: currencyModel, downloadDate date: String, segmentedControlIndexValue segmentedControlIndex: Int) {
         // Clean up the cell before displaing next currency! Because cells are reusable
         cleanUpOutlets()
         

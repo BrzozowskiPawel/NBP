@@ -23,6 +23,7 @@ struct currencyModel: Codable {
 }
 
 
+
 struct APIDataTimeline: Codable{
     let table: String
     let currency: String
