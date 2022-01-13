@@ -14,6 +14,8 @@ class CurrencyTableViewCell: UITableViewCell {
     @IBOutlet weak var averageRateLabel: UILabel!
     @IBOutlet weak var date1Label: UILabel!
     @IBOutlet weak var date2Label: UILabel!
+    @IBOutlet weak var cellBackgroundView: UIView!
+    
     
     // Storing data abour currency to dispaly
     var currencyToDisplay: currencyModel?
@@ -54,6 +56,7 @@ class CurrencyTableViewCell: UITableViewCell {
             averageRateLabel.alpha = 1
             
             if let dateOfDownloading = dateOfDownloading {
+                print("DATE WORKING")
                 date1Label.text = dateOfDownloading
                 date1Label.alpha = 1
             }
