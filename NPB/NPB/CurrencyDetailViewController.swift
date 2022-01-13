@@ -15,8 +15,10 @@ class CurrencyDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        print("LAST SCREEN: \(currencyToDisplay)")
+        // Set the title
+        if let currencyToDisplay = currencyToDisplay {
+            self.title = currencyToDisplay.currency
+        }
     }
     
 

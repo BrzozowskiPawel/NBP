@@ -57,7 +57,6 @@ class CurrencyTableViewCell: UITableViewCell {
         
         // Set up rest of the cell depending on whether it is type A / B or C
         if segmentedControlIndex == 0 || segmentedControlIndex == 1{
-            print("Cell type A or B")
             averageRateLabel.text = String(format: "%0.4f", currencyToDisplay!.mid!) + " PLN"
             averageRateLabel.alpha = 1
             
@@ -67,7 +66,6 @@ class CurrencyTableViewCell: UITableViewCell {
             }
             
         } else {
-            print("Cell type C")
             // Here averageRateLabel is ask price and date1 is bid price. The dtae is shown via date2 label
             averageRateLabel.text = "Ask: " + String(format: "%.4f", currencyToDisplay!.ask!)
             averageRateLabel.alpha = 1
@@ -82,6 +80,7 @@ class CurrencyTableViewCell: UITableViewCell {
                 date2Label.alpha = 1
             }
         }
+        
     }
     
     // FUnction requaired to clean up outlets because it's reusable cell.
