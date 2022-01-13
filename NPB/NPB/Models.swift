@@ -34,5 +34,5 @@ struct APIDataTimeline: Codable{
 struct timelineRates: Codable {
     let no: String
     let effectiveDate: String
-    let mid: Float
+    let mid: Double
 }

@@ -15,10 +15,36 @@
                     <view key="view" contentMode="scaleToFill" id="cb3-Cq-VIu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wuj-9Y-9Ox">
+                                <rect key="frame" x="0.0" y="129" width="414" height="200"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="KwW-MO-kIR"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price from 2021.01.01 to 2022.01.13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9e-WR-zUj">
+                                <rect key="frame" x="72.5" y="98" width="269.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="BZi-9y-qes"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="b9e-WR-zUj" firstAttribute="top" secondItem="BZi-9y-qes" secondAttribute="top" constant="10" id="0g6-VG-FLT"/>
+                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="top" secondItem="b9e-WR-zUj" secondAttribute="bottom" constant="10" id="LXR-HN-hPs"/>
+                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="Mkv-6L-ldV"/>
+                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="trailing" secondItem="BZi-9y-qes" secondAttribute="trailing" id="NuK-9x-otD"/>
+                            <constraint firstItem="b9e-WR-zUj" firstAttribute="centerX" secondItem="cb3-Cq-VIu" secondAttribute="centerX" id="Y1J-EF-fAf"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1"/>
+                    <connections>
+                        <outlet property="chartView" destination="Wuj-9Y-9Ox" id="Mwb-dF-GhO"/>
+                        <outlet property="dateRangeLabel" destination="b9e-WR-zUj" id="BBX-1H-uXC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="741-8Z-dBx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
