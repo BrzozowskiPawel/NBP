@@ -181,25 +181,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 // Adapt APIProtocol to retrieve data from APICaller
 extension ViewController: APIProtocol {
     
-    // Retrieve data. From now data is no logner a list of APIData but single APIData.
-    func dataRetrieved(_ retrievedData:APIData) {
-        // Set data.
-        self.currencyArray = retrievedData.rates
-        self.dataDowloadedDate = retrievedData.effectiveDate
-        
-        // Temporary give info about API call.
-        print("VC: number of currencies: \(currencyArray.count)")
-        print("VC: date of dowloaded data: \(dataDowloadedDate)")
-        
-        // Reloading tableView after getting data
-        tableView.reloadData()
-        
-        // Toggle spinner flag and turn off spinner
-        if refreshingIsActive {
-            refreshingIsActive.toggle()
-            refreshControl.endRefreshing()
-        } else {
-            stopAndDestroySpinner()
+    func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
+        if let retrievedStandartData = retrievedStandartData {
+            
+            // Set data.
+            self.currencyArray = retrievedStandartData.rates
+            self.dataDowloadedDate = retrievedStandartData.effectiveDate
+
+            // Temporary give info about API call.
+            print("VC: number of currencies: \(currencyArray.count)")
+            print("VC: date of dowloaded data: \(dataDowloadedDate)")
+
+            // Reloading tableView after getting data
+            tableView.reloadData()
+
+            // Toggle spinner flag and turn off spinner
+            if refreshingIsActive {
+                refreshingIsActive.toggle()
+                refreshControl.endRefreshing()
+            } else {
+                stopAndDestroySpinner()
+            }
         }
     }
+    
 }

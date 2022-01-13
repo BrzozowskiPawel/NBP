@@ -21,3 +21,17 @@ struct currencyModel: Codable {
     let bid: Double?
     let ask: Double?
 }
+
+
+struct APIDataTimeline: Codable{
+    let table: String
+    let currency: String
+    let code: String
+    let rates: [timelineRates]
+}
+
+struct timelineRates: Codable {
+    let no: String
+    let effectiveDate: String
+    let mid: Float
+}
