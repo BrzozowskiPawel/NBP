@@ -39,7 +39,10 @@ class CurrencyTableViewCell: UITableViewCell {
         cleanUpOutlets()
         
         // Keep a refrence of the currency
-        currencyToDisplay =  currency
+        currencyToDisplay = currency
+        
+        // Keep a refrence of the dowload date
+        dateOfDownloading = date
         
         // Set the main CODE of currency, ex United States Dolar -> USD
         codeLabel.text = currencyToDisplay?.code
@@ -56,7 +59,6 @@ class CurrencyTableViewCell: UITableViewCell {
             averageRateLabel.alpha = 1
             
             if let dateOfDownloading = dateOfDownloading {
-                print("DATE WORKING")
                 date1Label.text = dateOfDownloading
                 date1Label.alpha = 1
             }
