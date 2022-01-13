@@ -112,6 +112,40 @@ class ViewController: UIViewController {
     
 
 }
+// MARK: - Prepeare for segue
+extension ViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Detect which article the user selected (index path)
+        let indexPath = tableView.indexPathForSelectedRow
+        
+        guard indexPath != nil else {
+            return
+        }
+        
+        // Get currency that have been tapped on
+        let selectedCurrency = currencyArray[indexPath!.row]
+        
+        // get a reference to the detail view contorller (aka CurrencyDetailViewController)
+        let detailViewController = segue.destination as! CurrencyDetailViewController
+        
+        // Pass the data to the detail view contorller (aka CurrencyDetailViewController)
+        detailViewController.currencyToDisplay = selectedCurrency
+    }
+}
+
+// MARK: - Navigation controller hiding/showing
+extension ViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+}
 
 // MARK: - Article Model Protocool/ Delgate Methods
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -121,15 +155,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NBPCell", for: indexPath)
+        // Get a cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NBPCell", for: indexPath) as! CurrencyTableViewCell
         
-        cell.textLabel?.text = currencyArray[indexPath.row].currency
+        // Get the data needed to display
+        let curentCurrency = currencyArray[indexPath.row]
+        let dowloadedData = dataDowloadedDate ?? "no date"
+        let tableIndex = tableTypeSegmentedController.selectedSegmentIndex
         
+        // Cusotmize cell
+        cell.displayCurrencyCell(curentCurrency: curentCurrency, downloadDate: dowloadedData, segmentedControlIndex: tableIndex)
+        
+        // return the cell
         return cell
     }
     
-    
-    
+    // User has just selected row, trigger the segue to detail screen.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
 }
 
 // MARK: - API Protocool-Delgate Methods
