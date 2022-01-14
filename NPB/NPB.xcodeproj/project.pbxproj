@@ -17,6 +17,7 @@
 		04B45207278F4196001D1CD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B45205278F4196001D1CD3 /* LaunchScreen.storyboard */; };
 		04B4520F278F4788001D1CD3 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B4520E278F4788001D1CD3 /* APICaller.swift */; };
 		04B45212278F49E3001D1CD3 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B45211278F49E3001D1CD3 /* Models.swift */; };
+		04FF343327921C48003EED5E /* AllertCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FF343227921C48003EED5E /* AllertCreator.swift */; };
 		11FD57B8CCF8CF3AEFF5371B /* Pods_NPB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2E376898CE6F8697FBCA84 /* Pods_NPB.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		04B45208278F4196001D1CD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04B4520E278F4788001D1CD3 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		04B45211278F49E3001D1CD3 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		04FF343227921C48003EED5E /* AllertCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllertCreator.swift; sourceTree = "<group>"; };
 		1330046AF07EFC112F4A85CF /* Pods-NPB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NPB.debug.xcconfig"; path = "Target Support Files/Pods-NPB/Pods-NPB.debug.xcconfig"; sourceTree = "<group>"; };
 		E6952D7F84D0CF70301EF855 /* Pods-NPB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NPB.release.xcconfig"; path = "Target Support Files/Pods-NPB/Pods-NPB.release.xcconfig"; sourceTree = "<group>"; };
 		EB2E376898CE6F8697FBCA84 /* Pods_NPB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NPB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,7 @@
 				04B45203278F4196001D1CD3 /* Assets.xcassets */,
 				04B45205278F4196001D1CD3 /* LaunchScreen.storyboard */,
 				04B45208278F4196001D1CD3 /* Info.plist */,
+				04FF343227921C48003EED5E /* AllertCreator.swift */,
 			);
 			path = NPB;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 			files = (
 				04B451FF278F4195001D1CD3 /* ViewController.swift in Sources */,
 				04B451FB278F4195001D1CD3 /* AppDelegate.swift in Sources */,
+				04FF343327921C48003EED5E /* AllertCreator.swift in Sources */,
 				04B451FD278F4195001D1CD3 /* SceneDelegate.swift in Sources */,
 				04B4520F278F4788001D1CD3 /* APICaller.swift in Sources */,
 				0413878527903C1B00D5A3C7 /* CurrencyDetailViewController.swift in Sources */,

@@ -177,6 +177,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // Additional category is represented by segmentedController's index 1
         if tableTypeSegmentedController.selectedSegmentIndex != 1 {
             performSegue(withIdentifier: "goToDetail", sender: self)
+        } else {
+            let alert = createCustomAllert(alertTitle: "Cannot go to detail view.", alertMessage: "Sorry but there is no detail data for \(currencyArray[indexPath.row].code) yet. Data provider doesn't support data for additional category.", actionTitle: "OK")
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
