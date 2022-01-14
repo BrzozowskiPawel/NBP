@@ -92,7 +92,6 @@
 				1330046AF07EFC112F4A85CF /* Pods-NPB.debug.xcconfig */,
 				E6952D7F84D0CF70301EF855 /* Pods-NPB.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

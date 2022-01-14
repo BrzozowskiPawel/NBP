@@ -11,7 +11,11 @@ import Charts
 class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var chartView: UIView!
-    @IBOutlet weak var dateRangeLabel: UILabel!
+    @IBOutlet weak var rangeLabel: UILabel!
+    
+    // DatePicker and toolbar for datpicker
+    var toolBar = UIToolbar()
+    var datePicker  = UIDatePicker()
     
     // Dates for API call
     var firstDate: String?
@@ -54,9 +58,12 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         // Create a valid string URL and perform a request.
         let stringURL = createValidURLToApi()
         myAPICaller.getData(from: stringURL)
+        
+        
     }
-    func setNewDateOnLabel(firstDate date1: String, secondDate date2 :String) {
-        dateRangeLabel.text = "Price from "+date1+" to "+date2
+    func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
+        rangeLabel.text = "Price from "+date1+" to "+date2
+        
     }
     
     func setUpInitialDateLabel() {
@@ -77,7 +84,8 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         self.firstDate = dateBeforeString
         self.secondDate = dateTodayString
         
-        setNewDateOnLabel(firstDate: dateBeforeString, secondDate: dateTodayString)
+        setNewRangeLabel(firstDate: dateBeforeString, secondDate: dateTodayString)
+        
     }
     
     // Load data to the chart
@@ -98,6 +106,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
     func createValidURLToApi() -> String{
         guard firstDate != nil, secondDate != nil else {
+            print("DATES ARE EMPTY")
             return ""
         }
 
@@ -109,6 +118,96 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
             return "ERROR"
         }
     }
+    
+    // Button callendar
+    @IBAction func setNewDateRange(_ sender: Any) {
+        datePicker = UIDatePicker.init()
+        datePicker.backgroundColor = UIColor.white
+                    
+        //datePicker.autoresizingMask = .flexibleWidthe
+                    
+//            datePicker.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
+        datePicker.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(datePicker)
+        let xConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
+        let yConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 290)
+        
+        NSLayoutConstraint.activate([xConstraint, yConstraint])
+        
+        toolBar = UIToolbar(frame: CGRect(x: 0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
+//        toolBar.barStyle = .blackTranslucent
+        toolBar.items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))]
+            toolBar.sizeToFit()
+        self.view.addSubview(toolBar)
+    }
+    
+    func loadNewDataFromAPI() {
+        // Dowload timeline rates
+        // Create a valid string URL and perform a request.
+        let stringURL = createValidURLToApi()
+        myAPICaller.getData(from: stringURL)
+    }
+    
+//    func createAndCustromDatePicker() {
+//        // toolbar
+//        let toolbar = UIToolbar()
+//        toolbar.sizeToFit()
+//
+//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+//        toolbar.setItems([doneButton], animated: true)
+//
+//        // Add toolbar
+//        dateRangeTextField.inputAccessoryView = toolbar
+//
+//        // Asign date pciker to the text field
+//        dateRangeTextField.inputView = datePicker
+//
+//    }
+    
+//    @objc func nextDate() {
+//        // Initialize the date formatter
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd"
+//
+//        // Get the date as String
+//        firstDate = formatter.string(from: datePicker.date)
+//
+//        print("Date saved: \(firstDate)")
+//
+//        datePicker.
+//
+//    }
+    
+    @objc func donePressed() {
+        // Initialize the date formatter
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        // Get the date as String
+        let selectedDate = formatter.string(from: datePicker.date)
+        
+        if firstDate == nil {
+            firstDate = selectedDate
+            print("Setted first date to: \(firstDate)")
+            setNewRangeLabel(firstDate: firstDate!, secondDate: "")
+        } else if firstDate != nil && secondDate == nil {
+            secondDate = selectedDate
+            print("Setted first date to: \(secondDate)")
+            setNewRangeLabel(firstDate: firstDate!, secondDate: secondDate!)
+            loadNewDataFromAPI()
+            
+            toolBar.removeFromSuperview()
+            datePicker.removeFromSuperview()
+        }
+
+//        self.view.endEditing(true)
+    }
+    
 }
 
 extension CurrencyDetailViewController: APIProtocol {
@@ -116,6 +215,9 @@ extension CurrencyDetailViewController: APIProtocol {
         if let retrievedTimelinetData = retrievedTimelinetData {
             self.currencyTimelineArray = retrievedTimelinetData.rates
             loadDataToChart()
+            
+            firstDate = nil
+            secondDate = nil
         }
     }
 }
