@@ -13,6 +13,24 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var rangeLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var datePickerBackgroundView: UIView!
+    
+    private let floatingButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        button.backgroundColor = .systemBlue
+        let img =  UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: UIImage.SymbolWeight.medium))
+        
+        button.setImage(img, for: .normal)
+        button.tintColor = .white
+        button.setTitleColor(UIColor.white, for: .normal)
+        
+        button.layer.shadowRadius = 10
+        button.layer.shadowOpacity = 0.3
+        
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 30
+        return button
+    }()
     
     // DatePicker and toolbar for datpicker
     var toolBar = UIToolbar()
@@ -63,6 +81,10 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         // Set the ViewCotroller as the datasoruce and delgate of TableView
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Add floating button
+        floatingButton.frame = CGRect(x: view.frame.size.width - 90, y: view.frame.size.height - 120, width: 60, height: 60)
+        view.addSubview(floatingButton)
     }
     func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
         rangeLabel.text = "Price from "+date1+" to "+date2
@@ -124,6 +146,12 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
     // Button callendar
     @IBAction func setNewDateRange(_ sender: Any) {
+        // Hide floating button
+        floatingButton.alpha = 0
+        
+        // Set alpha of this view to 1. Now only picker will be visible
+        datePickerBackgroundView.alpha = 1
+        
         datePicker = UIDatePicker.init()
         datePicker.backgroundColor = UIColor.white
                     
@@ -137,16 +165,18 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(datePicker)
+        
+        
         let xConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
         let yConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 290)
         
         NSLayoutConstraint.activate([xConstraint, yConstraint])
         
         toolBar = UIToolbar(frame: CGRect(x: 0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
-//        toolBar.barStyle = .blackTranslucent
         toolBar.items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))]
             toolBar.sizeToFit()
         self.view.addSubview(toolBar)
+        
     }
     
     func loadNewDataFromAPI() {
@@ -173,6 +203,13 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
             print("Setted first date to: \(secondDate)")
             setNewRangeLabel(firstDate: firstDate!, secondDate: secondDate!)
             loadNewDataFromAPI()
+            
+            // Hide background of view.
+            // TableView cells will be fully visible now
+            datePickerBackgroundView.alpha = 0
+            
+            // Show flaoting button again
+            floatingButton.alpha = 1
             
             toolBar.removeFromSuperview()
             datePicker.removeFromSuperview()

@@ -23,21 +23,6 @@
                                     <constraint firstAttribute="height" constant="200" id="KwW-MO-kIR"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HwI-6n-Uf8">
-                                <rect key="frame" x="354" y="346" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="KmP-Oe-QOV"/>
-                                    <constraint firstAttribute="height" constant="40" id="wc9-BH-ped"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <backgroundConfiguration key="background" image="calendar.badge.plus" catalog="system"/>
-                                    <attributedString key="attributedSubtitle"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="setNewDateRange:" destination="8Gp-zD-KT7" eventType="touchUpInside" id="jtv-UN-Fmh"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price of USD from 2022.01.01 - 2022.01.13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6MU-n6-3qr">
                                 <rect key="frame" x="28" y="88" width="358.5" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
@@ -45,7 +30,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="O4e-b1-qIW">
-                                <rect key="frame" x="0.0" y="401" width="414" height="461"/>
+                                <rect key="frame" x="0.0" y="341" width="414" height="521"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RateCell" id="EEN-6h-Y2a">
@@ -58,28 +43,41 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HSK-Rc-Z7W">
+                                <rect key="frame" x="0.0" y="596" width="414" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="thV-Yj-ZAc"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="BZi-9y-qes"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="HwI-6n-Uf8" firstAttribute="top" secondItem="Wuj-9Y-9Ox" secondAttribute="bottom" constant="15" id="1JM-qh-sxe"/>
-                            <constraint firstItem="O4e-b1-qIW" firstAttribute="top" secondItem="HwI-6n-Uf8" secondAttribute="bottom" constant="15" id="2Kz-pm-knO"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="top" secondItem="6MU-n6-3qr" secondAttribute="bottom" constant="20" id="4SB-gy-2jg"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="bottom" secondItem="O4e-b1-qIW" secondAttribute="bottom" id="6dw-aP-iml"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="top" secondItem="BZi-9y-qes" secondAttribute="top" id="8ep-L3-8hd"/>
-                            <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="HwI-6n-Uf8" secondAttribute="trailing" constant="20" id="B0g-Wn-OyJ"/>
+                            <constraint firstItem="O4e-b1-qIW" firstAttribute="top" secondItem="Wuj-9Y-9Ox" secondAttribute="bottom" constant="10" id="B0N-z1-fl6"/>
+                            <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="HSK-Rc-Z7W" secondAttribute="trailing" id="Ch2-uP-cOH"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="Mkv-6L-ldV"/>
+                            <constraint firstAttribute="bottom" secondItem="HSK-Rc-Z7W" secondAttribute="bottom" id="Mzh-3C-tQc"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="trailing" secondItem="BZi-9y-qes" secondAttribute="trailing" id="NuK-9x-otD"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="centerX" secondItem="cb3-Cq-VIu" secondAttribute="centerX" id="abp-zi-Cfz"/>
+                            <constraint firstItem="HSK-Rc-Z7W" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="hY5-U6-pE7"/>
                             <constraint firstItem="O4e-b1-qIW" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="qAQ-EV-nck"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="O4e-b1-qIW" secondAttribute="trailing" id="syq-VP-ayj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1">
-                        <barButtonItem key="rightBarButtonItem" image="arrow.clockwise" catalog="system" id="5dh-8b-nOV"/>
+                        <barButtonItem key="rightBarButtonItem" image="calendar.badge.plus" catalog="system" id="5dh-8b-nOV">
+                            <connections>
+                                <action selector="setNewDateRange:" destination="8Gp-zD-KT7" id="25w-NH-46t"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="chartView" destination="Wuj-9Y-9Ox" id="Mwb-dF-GhO"/>
+                        <outlet property="datePickerBackgroundView" destination="HSK-Rc-Z7W" id="2L1-bK-Oty"/>
                         <outlet property="rangeLabel" destination="6MU-n6-3qr" id="6xT-GA-bbF"/>
                         <outlet property="tableView" destination="O4e-b1-qIW" id="8bi-3n-nhX"/>
                     </connections>
@@ -231,7 +229,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
