@@ -50,7 +50,40 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     var currencyTimelineArray = [timelineRates]()
     
     // Create a chart object
-    var lineChart = LineChartView()
+    lazy var lineChart: LineChartView = {
+        // Create a chary
+        let chartView = LineChartView()
+        
+        // Customize chart
+        // Right axi isn't nessesary - it's make it harder to read
+        chartView.rightAxis.enabled = false
+        // Customize left axis
+        let yAxis = chartView.leftAxis
+        yAxis.labelFont = .boldSystemFont(ofSize: 12)
+        // Show only 4 labels
+        yAxis.setLabelCount(5, force: false)
+        // Y Axis colors
+        yAxis.labelTextColor = .white
+        yAxis.axisLineColor = .white
+        // Customize label position
+        yAxis.labelPosition = .outsideChart
+        
+        // X Axis customization
+        let xAxis = chartView.xAxis
+        xAxis.labelPosition = .bottom
+        xAxis.labelFont = .boldSystemFont(ofSize: 12)
+        xAxis.setLabelCount(5, force: false)
+        xAxis.labelTextColor = .white
+        xAxis.axisLineColor = .systemBlue
+        
+        // Animate char
+        chartView.animate(xAxisDuration: 0.5)
+        
+        // Return custom chart
+        return chartView
+    }()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,12 +96,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         // Setup APIcaller
         myAPICaller.delegate = self
         
-        // Setup charts
-        lineChart.delegate = self
-        
-        // Create a chart
-        lineChart.frame = CGRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height)
-        chartView.addSubview(lineChart)
         
         // Get new date and set label acording to it.
         setUpInitialDateLabel()
@@ -81,6 +108,14 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         // Set the ViewCotroller as the datasoruce and delgate of TableView
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Add lineChart to the view
+        lineChart.frame = CGRect(x: 0, y: 0, width: chartView.frame.width, height: chartView.frame.height)
+        chartView.backgroundColor = .systemBlue
+        chartView.addSubview(lineChart)
+        
+        // Setup chart's delegate
+        lineChart.delegate = self
         
         // Add floating button
         floatingButton.frame = CGRect(x: view.frame.size.width - 90, y: view.frame.size.height - 120, width: 60, height: 60)
@@ -114,18 +149,46 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     }
     
     // Load data to the chart
-    func loadDataToChart() {
+    func setChartData() {
+        // Create a variable that stores entries
         var entries = [ChartDataEntry]()
 
+        // Create an entry. For x use simply number form 0 to make it more redable
         var index:Double = 1.0
         for singleRate in currencyTimelineArray {
             entries.append(ChartDataEntry(x: index, y: singleRate.mid))
             index += 1
         }
 
-        let set = LineChartDataSet(entries: entries)
-        set.colors = ChartColorTemplates.material()
+        // Set of data, also add label that this chart represents price of specyfic currency
+        let set = LineChartDataSet(entries: entries, label: "Price of \(currencyToDisplay!.code)")
+
+        // Remove circles
+        set.drawCirclesEnabled = false
+        
+        // Smooth out edges of set
+        set.mode = .cubicBezier
+        
+        // Set line widt
+        set.lineWidth = 3
+        
+        // Set set color to white
+        set.setColor(.white)
+        
+        set.drawHorizontalHighlightIndicatorEnabled = false
+        
+        // Set fill of under the line
+        set.fill = Fill(color: .white)
+        set.fillAlpha = 0.75
+        set.drawFilledEnabled
+        
+        // Create a data from set
         let data = LineChartData(dataSet: set)
+        
+        // Remove value labels
+        data.setDrawValues(false)
+        
+        // Add data to the chart
         lineChart.data = data
     }
     
@@ -240,7 +303,9 @@ extension CurrencyDetailViewController: APIProtocol {
     func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
         if let retrievedTimelinetData = retrievedTimelinetData {
             self.currencyTimelineArray = retrievedTimelinetData.rates
-            loadDataToChart()
+            
+            // After data is dowloaded start creating data to populate the chart.
+            setChartData()
             tableView.reloadData()
             
             firstDate = nil
