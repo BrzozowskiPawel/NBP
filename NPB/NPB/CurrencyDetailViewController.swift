@@ -61,7 +61,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         let yAxis = chartView.leftAxis
         yAxis.labelFont = .boldSystemFont(ofSize: 12)
         // Show only 4 labels
-        yAxis.setLabelCount(5, force: false)
+        yAxis.setLabelCount(8, force: false)
         // Y Axis colors
         yAxis.labelTextColor = .white
         yAxis.axisLineColor = .white
@@ -72,7 +72,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .boldSystemFont(ofSize: 12)
-        xAxis.setLabelCount(5, force: false)
+        xAxis.setLabelCount(8, force: false)
         xAxis.labelTextColor = .white
         xAxis.axisLineColor = .systemBlue
         
@@ -167,10 +167,10 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         set.drawCirclesEnabled = false
         
         // Smooth out edges of set
-        set.mode = .cubicBezier
+//        set.mode = .cubicBezier
         
         // Set line widt
-        set.lineWidth = 3
+        set.lineWidth = 2
         
         // Set set color to white
         set.setColor(.white)
