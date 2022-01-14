@@ -172,7 +172,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     // User has just selected row, trigger the segue to detail screen.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToDetail", sender: self)
+        // If user try to see detail range rates for additional category DO NOT PERFORM SEGUE
+        // Additional category currencies doesnt have rates by range od dates
+        // Additional category is represented by segmentedController's index 1
+        if tableTypeSegmentedController.selectedSegmentIndex != 1 {
+            performSegue(withIdentifier: "goToDetail", sender: self)
+        }
     }
 }
 
