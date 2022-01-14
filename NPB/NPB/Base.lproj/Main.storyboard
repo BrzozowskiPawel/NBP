@@ -44,17 +44,35 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="O4e-b1-qIW">
+                                <rect key="frame" x="0.0" y="401" width="414" height="461"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RateCell" id="EEN-6h-Y2a">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EEN-6h-Y2a" id="6Z9-Qq-6Ch">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="BZi-9y-qes"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HwI-6n-Uf8" firstAttribute="top" secondItem="Wuj-9Y-9Ox" secondAttribute="bottom" constant="15" id="1JM-qh-sxe"/>
+                            <constraint firstItem="O4e-b1-qIW" firstAttribute="top" secondItem="HwI-6n-Uf8" secondAttribute="bottom" constant="15" id="2Kz-pm-knO"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="top" secondItem="6MU-n6-3qr" secondAttribute="bottom" constant="20" id="4SB-gy-2jg"/>
+                            <constraint firstItem="BZi-9y-qes" firstAttribute="bottom" secondItem="O4e-b1-qIW" secondAttribute="bottom" id="6dw-aP-iml"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="top" secondItem="BZi-9y-qes" secondAttribute="top" id="8ep-L3-8hd"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="HwI-6n-Uf8" secondAttribute="trailing" constant="20" id="B0g-Wn-OyJ"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="Mkv-6L-ldV"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="trailing" secondItem="BZi-9y-qes" secondAttribute="trailing" id="NuK-9x-otD"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="centerX" secondItem="cb3-Cq-VIu" secondAttribute="centerX" id="abp-zi-Cfz"/>
+                            <constraint firstItem="O4e-b1-qIW" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="qAQ-EV-nck"/>
+                            <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="O4e-b1-qIW" secondAttribute="trailing" id="syq-VP-ayj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1">
@@ -63,6 +81,7 @@
                     <connections>
                         <outlet property="chartView" destination="Wuj-9Y-9Ox" id="Mwb-dF-GhO"/>
                         <outlet property="rangeLabel" destination="6MU-n6-3qr" id="6xT-GA-bbF"/>
+                        <outlet property="tableView" destination="O4e-b1-qIW" id="8bi-3n-nhX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="741-8Z-dBx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

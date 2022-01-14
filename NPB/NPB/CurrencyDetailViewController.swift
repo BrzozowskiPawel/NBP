@@ -12,6 +12,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var rangeLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
     // DatePicker and toolbar for datpicker
     var toolBar = UIToolbar()
@@ -59,7 +60,9 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         let stringURL = createValidURLToApi()
         myAPICaller.getData(from: stringURL)
         
-        
+        // Set the ViewCotroller as the datasoruce and delgate of TableView
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
         rangeLabel.text = "Price from "+date1+" to "+date2
@@ -126,7 +129,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
                     
         //datePicker.autoresizingMask = .flexibleWidthe
                     
-//            datePicker.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
+//      datePicker.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         datePicker.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
@@ -152,36 +155,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         let stringURL = createValidURLToApi()
         myAPICaller.getData(from: stringURL)
     }
-    
-//    func createAndCustromDatePicker() {
-//        // toolbar
-//        let toolbar = UIToolbar()
-//        toolbar.sizeToFit()
-//
-//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-//        toolbar.setItems([doneButton], animated: true)
-//
-//        // Add toolbar
-//        dateRangeTextField.inputAccessoryView = toolbar
-//
-//        // Asign date pciker to the text field
-//        dateRangeTextField.inputView = datePicker
-//
-//    }
-    
-//    @objc func nextDate() {
-//        // Initialize the date formatter
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd"
-//
-//        // Get the date as String
-//        firstDate = formatter.string(from: datePicker.date)
-//
-//        print("Date saved: \(firstDate)")
-//
-//        datePicker.
-//
-//    }
     
     @objc func donePressed() {
         // Initialize the date formatter
@@ -210,11 +183,28 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
 }
 
+extension CurrencyDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currencyTimelineArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RateCell", for: indexPath as IndexPath)
+        
+        cell.textLabel!.text = currencyTimelineArray[indexPath.row].effectiveDate
+        
+        return cell
+    }
+    
+    
+}
+
 extension CurrencyDetailViewController: APIProtocol {
     func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
         if let retrievedTimelinetData = retrievedTimelinetData {
             self.currencyTimelineArray = retrievedTimelinetData.rates
             loadDataToChart()
+            tableView.reloadData()
             
             firstDate = nil
             secondDate = nil
