@@ -15,6 +15,9 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var datePickerBackgroundView: UIView!
     
+    // Spiner to show dowloading at the beggining
+    var spinner = UIActivityIndicatorView(style: .large)
+    
     private let floatingButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         button.backgroundColor = .systemBlue
@@ -102,6 +105,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         // Dowload timeline rates
         // Create a valid string URL and perform a request.
+        createAndStartDowloadSpinner()
         let stringURL = createValidURLToApi()
         myAPICaller.getData(from: stringURL)
         
@@ -283,6 +287,26 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
 }
 
+// MARK: - Creating and destroying initial dowload spinner
+extension CurrencyDetailViewController {
+    // Create a dowload spinner
+    func createAndStartDowloadSpinner() {
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    // Destroy a dowload spinner
+    func stopAndDestroySpinner() {
+        spinner.stopAnimating()
+        spinner.removeFromSuperview()
+    }
+}
+
+// MARK: - tableView functions
 extension CurrencyDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currencyTimelineArray.count
@@ -299,6 +323,7 @@ extension CurrencyDetailViewController: UITableViewDelegate, UITableViewDataSour
     
 }
 
+// MARK: - Delegate-Protocol API extension
 extension CurrencyDetailViewController: APIProtocol {
     func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
         if let retrievedTimelinetData = retrievedTimelinetData {
@@ -310,6 +335,9 @@ extension CurrencyDetailViewController: APIProtocol {
             
             firstDate = nil
             secondDate = nil
+            
+            // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
+            stopAndDestroySpinner()
         }
     }
 }
