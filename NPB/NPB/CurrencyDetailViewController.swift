@@ -54,7 +54,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     let myAPICaller = APICaller()
     
     // Data dowloaded from API
-    var currencyTimelineArray = [timelineRates]()
+    var currencyTimelineArray = [timelineRate]()
     
     // Create a chart object
     lazy var lineChart: LineChartView = {
@@ -347,10 +347,16 @@ extension CurrencyDetailViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RateCell", for: indexPath as IndexPath)
+        // Get a cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RateCell", for: indexPath) as! DetailTableViewCell
         
-        cell.textLabel!.text = currencyTimelineArray[indexPath.row].effectiveDate
+        // Get the data needed to display
+        let curentRate = currencyTimelineArray[indexPath.row]
         
+        // Cusotmize cell
+        cell.configureCell(curentRate: curentRate, numberOfRate: indexPath.row)
+        
+        // return the cell
         return cell
     }
     

@@ -28,10 +28,10 @@ struct APIDataTimeline: Codable{
     let table: String
     let currency: String
     let code: String
-    let rates: [timelineRates]
+    let rates: [timelineRate]
 }
 
-struct timelineRates: Codable {
+struct timelineRate: Codable {
     let no: String
     let effectiveDate: String
     let mid: Double

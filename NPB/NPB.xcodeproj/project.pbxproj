@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0413878527903C1B00D5A3C7 /* CurrencyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413878427903C1B00D5A3C7 /* CurrencyDetailViewController.swift */; };
+		046CF9152792FD6700D004F9 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CF9142792FD6700D004F9 /* DetailTableViewCell.swift */; };
 		047CAF8327902FEC00B8DB60 /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047CAF8227902FEC00B8DB60 /* CurrencyTableViewCell.swift */; };
 		04B451FB278F4195001D1CD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B451FA278F4195001D1CD3 /* AppDelegate.swift */; };
 		04B451FD278F4195001D1CD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B451FC278F4195001D1CD3 /* SceneDelegate.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		0413878427903C1B00D5A3C7 /* CurrencyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDetailViewController.swift; sourceTree = "<group>"; };
+		046CF9142792FD6700D004F9 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		047CAF8227902FEC00B8DB60 /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		04B451F7278F4195001D1CD3 /* NPB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NPB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B451FA278F4195001D1CD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				04B451FA278F4195001D1CD3 /* AppDelegate.swift */,
+				046CF9142792FD6700D004F9 /* DetailTableViewCell.swift */,
 				04B451FC278F4195001D1CD3 /* SceneDelegate.swift */,
 				04B451FE278F4195001D1CD3 /* ViewController.swift */,
 				04B4520E278F4788001D1CD3 /* APICaller.swift */,
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				046CF9152792FD6700D004F9 /* DetailTableViewCell.swift in Sources */,
 				04B451FF278F4195001D1CD3 /* ViewController.swift in Sources */,
 				04B451FB278F4195001D1CD3 /* AppDelegate.swift in Sources */,
 				04FF343327921C48003EED5E /* AllertCreator.swift in Sources */,

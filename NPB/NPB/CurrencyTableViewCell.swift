@@ -83,7 +83,7 @@ class CurrencyTableViewCell: UITableViewCell {
         
     }
     
-    // FUnction requaired to clean up outlets because it's reusable cell.
+    // Function requaired to clean up outlets because it's reusable cell.
     private func cleanUpOutlets() {
         codeLabel.text = ""
         currencyLabel.text = ""
