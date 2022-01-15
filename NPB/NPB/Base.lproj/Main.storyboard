@@ -69,11 +69,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1">
-                        <barButtonItem key="rightBarButtonItem" image="calendar.badge.plus" catalog="system" id="5dh-8b-nOV">
-                            <connections>
-                                <action selector="setNewDateRange:" destination="8Gp-zD-KT7" id="25w-NH-46t"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="arrow.clockwise" catalog="system" id="5dh-8b-nOV"/>
                     </navigationItem>
                     <connections>
                         <outlet property="chartView" destination="Wuj-9Y-9Ox" id="Mwb-dF-GhO"/>
@@ -229,7 +225,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calendar.badge.plus" catalog="system" width="128" height="108"/>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -21,7 +21,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     private let floatingButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         button.backgroundColor = .systemBlue
-        let img =  UIImage(systemName: "arrow.clockwise", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: UIImage.SymbolWeight.medium))
+        let img =  UIImage(systemName: "calendar.badge.plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: UIImage.SymbolWeight.medium))
         
         button.setImage(img, for: .normal)
         button.tintColor = .white
@@ -123,6 +123,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         // Add floating button
         floatingButton.frame = CGRect(x: view.frame.size.width - 90, y: view.frame.size.height - 120, width: 60, height: 60)
+        floatingButton.addTarget(self, action: #selector(setNewDateRange), for: .touchUpInside)
         view.addSubview(floatingButton)
     }
     func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
@@ -184,7 +185,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         // Set fill of under the line
         set.fill = Fill(color: .white)
         set.fillAlpha = 0.75
-        set.drawFilledEnabled
+        set.drawFilledEnabled = true
         
         // Create a data from set
         let data = LineChartData(dataSet: set)
@@ -212,7 +213,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     }
     
     // Button callendar
-    @IBAction func setNewDateRange(_ sender: Any) {
+    @objc func setNewDateRange(_ sender: Any) {
         // Hide floating button
         floatingButton.alpha = 0
         
