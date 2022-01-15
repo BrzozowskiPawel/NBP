@@ -37,15 +37,16 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
     // DatePicker and toolbar for datpicker
     var toolBar = UIToolbar()
-    var datePicker  = UIDatePicker()
+    var datePicker = UIDatePicker()
     
     // Dates for API call
-    var firstDate: String?
-    var secondDate: String?
+    var firstDate: Date?
+    var secondDate: Date?
     
-    // Initial Dates. If user select wrong range of data this values will be used
-    var initialFirstDate: String?
-    var initialSecondDate: String?
+    // Last proper Dates.
+    // If user select wrong range of data this values will be used for API call.
+    var lastFirstDate: Date?
+    var lastSecondDate: Date?
     
     // Storing data abour currency to dispaly
     var currencyToDisplay: currencyModel?
@@ -107,7 +108,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         // Get new date and set label acording to it.
         // This also set up initial range dates to allow perfoming request in next step.
-        setUpInitialDateLabel()
+        setUpInitialDateAndUpdateLabel()
         
         // Dowload timeline rates
         fetchDataFromAPI()
@@ -145,38 +146,42 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
     }
     
-    func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
+    func setNewRangeLabelText(firstDate date1: String, secondDate date2: String) {
         rangeLabel.text = "Price from "+date1+" to "+date2
-        
     }
     
-    func setUpInitialDateLabel() {
-        // Gets the current date and time
-        let currentDateTime = Date()
-        
+    func getDateAsString(DateToFormat date: Date) -> String {
         // Initialize the date formatter
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
+        // Return formated date
+        return formatter.string(from: date)
+    }
+    
+    func setUpInitialDateAndUpdateLabel() {
+        // Gets the current date and time
+        let currentDateTime = Date()
+        
         // Get the date as String
-        let dateTodayString = formatter.string(from: currentDateTime)
+        let dateTodayString = getDateAsString(DateToFormat: currentDateTime)
         
-        // Date 2 weeks before
-        let dateBefore = Date().addWeek(noOfWeeks: -24)
-        let dateBeforeString = formatter.string(from: dateBefore)
+        // Date 13 weeks before - because API specyfications says that max range is 93 days.
+        // Hoever out of the scope 6 moths also worked.
+        let dateBefore = Date().addWeek(noOfWeeks: -13)
+        let dateBeforeString = getDateAsString(DateToFormat: dateBefore)
         
-        self.firstDate = dateBeforeString
-        self.secondDate = dateTodayString
+        // Setup range's dates
+        self.firstDate = dateBefore
+        self.secondDate = currentDateTime
         
         // Set initial values for range dates.
         // This values will be used in case user set wrong range.
-        if initialFirstDate == nil && initialSecondDate == nil {
-            self.initialFirstDate = dateBeforeString
-            self.initialSecondDate = dateTodayString
-        }
+        self.lastFirstDate = firstDate
+        self.lastSecondDate = secondDate
         
         // Update label with proper values.
-        setNewRangeLabel(firstDate: dateBeforeString, secondDate: dateTodayString)
+        setNewRangeLabelText(firstDate: dateBeforeString, secondDate: dateTodayString)
         
     }
     
@@ -199,7 +204,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         set.drawCirclesEnabled = false
         
         // Smooth out edges of set
-//        set.mode = .cubicBezier
+        // set.mode = .cubicBezier
         
         // Set line widt
         set.lineWidth = 2
@@ -229,8 +234,13 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
             print("DATES ARE EMPTY")
             return ""
         }
-
-        let dateRange = firstDate!+"/"+secondDate!
+        
+        // Get first and second date as formated string
+        let firstDateString = getDateAsString(DateToFormat: firstDate!)
+        let secondDateString = getDateAsString(DateToFormat: secondDate!)
+        
+        // Create date range as string
+        let dateRange = firstDateString+"/"+secondDateString
         
         if let currencyToDisplay = currencyToDisplay {
             return "https://api.nbp.pl/api/exchangerates/rates/a/"+currencyToDisplay.code+"/"+dateRange+"/?format=json"
@@ -239,25 +249,113 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
-    @objc func donePressed() {
-        // Initialize the date formatter
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-
-        // Get the date as String
-        let selectedDate = formatter.string(from: datePicker.date)
+    // This functions set vales of First and Second date to the inital values if there was an error with choosing new range.
+    func useInitialDateValues() {
+        self.firstDate =  self.lastFirstDate
+        self.secondDate = self.lastSecondDate
+    }
+    
+    // Handle error when suer set second date before first
+    func handleRangeErrorSecodDateIsBefore() {
+        // Because selected rnage is inavlid use initial values.
+        useInitialDateValues()
         
+        // Get first and second date as formated string
+        let firstDateString = getDateAsString(DateToFormat: firstDate!)
+        let secondDateString = getDateAsString(DateToFormat: secondDate!)
+        
+        // Create an allert to inform user about this error
+        let alert = createCustomAllert(alertTitle: "Second date cannot be before first date.", alertMessage: "Sorry but selected range is invalid. Your first date is: \(firstDateString) and second is \(secondDateString). Please set range again.", actionTitle: "OK")
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // Handle error when date is in futre
+    func handleRangeErrorDateIsFuture() {
+        // Because selected rnage is inavlid use initial values.
+        useInitialDateValues()
+        
+        // Get first and second date as formated string
+        let firstDateString = getDateAsString(DateToFormat: firstDate!)
+        let secondDateString = getDateAsString(DateToFormat: secondDate!)
+        
+        // Create an allert to inform user about this error
+        let alert = createCustomAllert(alertTitle: "Range cannot be in fute", alertMessage: "Sorry but selected range is invalid. Your first date is: \(firstDateString) and second is \(secondDateString). Make sure that dates arent future and select a range again.", actionTitle: "OK")
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func handleRangeErrorMaxRange(days numOfdays: Int) {
+        // Because selected rnage is inavlid use initial values.
+        useInitialDateValues()
+        
+        // Create an allert to inform user about this error
+        let alert = createCustomAllert(alertTitle: "Max range is 93 days.", alertMessage: "Sorry but selected range is invalid. Max range is 93 days and your range was \(numOfdays)", actionTitle: "OK")
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // Calcute how many days have passed between 2 dates
+    func daysBetween(start: Date, end: Date) -> Int {
+            return Calendar.current.dateComponents([.day], from: start, to: end).day! + 1
+        }
+    
+    // Perform chaeck to make sure that dates in range is correct
+    func performErrorCheck() {
+        // - first date must be eariler then second date
+        // - non of dates can be after current date
+        // - single rnage cannot be larger than 93 days
+        if secondDate! < firstDate! {
+            // Handling this error
+            handleRangeErrorSecodDateIsBefore()
+            return
+        }
+        let currentDate = Date()
+        if secondDate! > currentDate || firstDate! > currentDate {
+            handleRangeErrorDateIsFuture()
+            return
+        }
+        
+        let days = daysBetween(start: firstDate!, end: secondDate!)
+        // KEEP IN MIND THAT API DOCUMENATION SAYS THAT MAX ANGE IS 93 DAYS
+        if days > 367 {
+            handleRangeErrorMaxRange(days: days)
+            return
+        }
+    }
+    
+    @objc func donePressed() {
         if firstDateSetted == false {
-            firstDate = selectedDate
-            setNewRangeLabel(firstDate: firstDate!, secondDate: "")
+            // Set new value for firstDate
+            firstDate = datePicker.date
+            
+            // Get a String value of firstDate
+            let firstDateString = getDateAsString(DateToFormat: firstDate!)
+            
+            // Update label
+            setNewRangeLabelText(firstDate: firstDateString, secondDate: "")
             
             // Set flag that firstDate have been setted
             firstDateSetted = true
             
         } else if firstDateSetted == true {
-            secondDate = selectedDate
-            setNewRangeLabel(firstDate: firstDate!, secondDate: secondDate!)
+            // Set new value for secondDate
+            secondDate = datePicker.date
             
+            // Make sure that vales aren't nil and unwrape is safe.
+            guard firstDate != nil, secondDate != nil else {
+                return
+            }
+            
+            // Perform chaeck to make sure that dates in rages are correct
+            // If not use last values.
+            performErrorCheck()
+            
+            // Get a String value of secondDate
+            let firstDateString = getDateAsString(DateToFormat: firstDate!)
+            let secondDateString = getDateAsString(DateToFormat: secondDate!)
+            
+            // Update label
+            setNewRangeLabelText(firstDate: firstDateString, secondDate: secondDateString)
+            
+            // Dowload new data acording to new range od dates
             fetchDataFromAPI()
             
             // Hide background of view.
@@ -301,6 +399,7 @@ extension CurrencyDetailViewController {
         datePicker.preferredDatePickerStyle = .wheels
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        
         
         self.view.addSubview(datePicker)
         
@@ -372,9 +471,6 @@ extension CurrencyDetailViewController: APIProtocol {
             // Reload new data to the tablewView
             tableView.reloadData()
             
-//            firstDate = nil
-//            secondDate = nil
-            
             // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
             stopAndDestroySpinner()
         }
@@ -387,3 +483,4 @@ extension Date {
     }
 }
    
+
