@@ -32,7 +32,7 @@ class DetailTableViewCell: UITableViewCell {
 //        cleanUpOutlets()
         
         // Make backgroundView rounded
-        numberBGView.layer.cornerRadius = 15
+        numberBGView.layer.cornerRadius = 17
         
         // Keep a refrence to the rate
         self.rate = rateObj
