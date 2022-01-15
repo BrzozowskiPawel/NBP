@@ -239,13 +239,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
-//    func loadNewDataFromAPI() {
-//        // Dowload timeline rates
-//        // Create a valid string URL and perform a request.
-//        let stringURL = createValidURLToApi()
-//        myAPICaller.getData(from: stringURL)
-//    }
-    
     @objc func donePressed() {
         // Initialize the date formatter
         let formatter = DateFormatter()
@@ -280,8 +273,12 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
             // Reset this flag value to initial state.
             firstDateSetted = false
         }
-
     }
+    
+    @IBAction func refreshButtonPressed(_ sender: UIBarButtonItem) {
+        fetchDataFromAPI()
+    }
+    
     
 }
 

@@ -69,7 +69,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1">
-                        <barButtonItem key="rightBarButtonItem" image="arrow.clockwise" catalog="system" id="5dh-8b-nOV"/>
+                        <barButtonItem key="rightBarButtonItem" image="arrow.clockwise" catalog="system" id="5dh-8b-nOV">
+                            <connections>
+                                <action selector="refreshButtonPressed:" destination="8Gp-zD-KT7" id="ISg-rh-zF6"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="chartView" destination="Wuj-9Y-9Ox" id="Mwb-dF-GhO"/>
