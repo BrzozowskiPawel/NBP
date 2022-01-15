@@ -291,13 +291,11 @@ extension CurrencyDetailViewController {
         
         // Set alpha of this view to 1. Now only picker will be visible
         datePickerBackgroundView.alpha = 1
+        datePickerBackgroundView.backgroundColor = UIColor.white
         
         datePicker = UIDatePicker.init()
         datePicker.backgroundColor = UIColor.white
                     
-        //datePicker.autoresizingMask = .flexibleWidthe
-                    
-//      datePicker.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         datePicker.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
