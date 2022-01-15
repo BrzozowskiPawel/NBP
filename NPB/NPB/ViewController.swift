@@ -118,14 +118,16 @@ extension ViewController {
         // Detect which article the user selected (index path)
         let indexPath = tableView.indexPathForSelectedRow
         
+        // Make sure that there is no invalid index. If's not safe to unwrap.
         guard indexPath != nil else {
             return
         }
         
         // Get currency that have been tapped on
+        // Index is safe to unwarp due to guard statment
         let selectedCurrency = currencyArray[indexPath!.row]
         
-        // get a reference to the detail view contorller (aka CurrencyDetailViewController)
+        // Get a reference to the detail view contorller (aka CurrencyDetailViewController)
         let detailViewController = segue.destination as! CurrencyDetailViewController
         
         // Pass the data to the detail view contorller (aka CurrencyDetailViewController)
@@ -135,11 +137,14 @@ extension ViewController {
 
 // MARK: - Navigation controller hiding/showing
 extension ViewController {
+    // Turn off showing Navigation Controller on loading this VC
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
+    // When suer leaves this VC tun on showing Navigation Controller
+    // On next screen title is requaired.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -150,10 +155,12 @@ extension ViewController {
 // MARK: - Article Model Protocool/ Delgate Methods
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
+    // Nuber of cell in a tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currencyArray.count
     }
     
+    // Create a custom cell and populete it with data
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get a cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "NBPCell", for: indexPath) as! CurrencyTableViewCell
@@ -176,8 +183,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // Additional category currencies doesnt have rates by range od dates
         // Additional category is represented by segmentedController's index 1
         if tableTypeSegmentedController.selectedSegmentIndex != 1 {
+            // There is details for this currency - perform a segue
             performSegue(withIdentifier: "goToDetail", sender: self)
         } else {
+            // Sorry but for this type of currency there isn't detail data
+            // Let user know by showing info in alert.
             let alert = createCustomAllert(alertTitle: "Cannot go to detail view.", alertMessage: "Sorry but there is no detail data for \(currencyArray[indexPath.row].code) yet. Data provider doesn't support data for additional category.", actionTitle: "OK")
             self.present(alert, animated: true, completion: nil)
         }
@@ -189,21 +199,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 // Adapt APIProtocol to retrieve data from APICaller
 extension ViewController: APIProtocol {
     
+    // Delegate-protocol function that allows data flow from API caller.
     func dataRetrieved(_ retrievedStandartData: APIData?, retrievedTimelinetData: APIDataTimeline?) {
         if let retrievedStandartData = retrievedStandartData {
             
-            // Set data.
+            // Set data from dowloaded data.
             self.currencyArray = retrievedStandartData.rates
             self.dataDowloadedDate = retrievedStandartData.effectiveDate
-
-            // Temporary give info about API call.
-            print("VC: number of currencies: \(currencyArray.count)")
-            print("VC: date of dowloaded data: \(dataDowloadedDate)")
 
             // Reloading tableView after getting data
             tableView.reloadData()
 
-            // Toggle spinner flag and turn off spinner
+            // Toggle spinner flag and turn off table view spinner
             if refreshingIsActive {
                 refreshingIsActive.toggle()
                 refreshControl.endRefreshing()
