@@ -54,18 +54,18 @@
                         <viewLayoutGuide key="safeArea" id="BZi-9y-qes"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Wuj-9Y-9Ox" secondAttribute="trailing" id="1tO-V8-Wpi"/>
                             <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="top" secondItem="6MU-n6-3qr" secondAttribute="bottom" constant="20" id="4SB-gy-2jg"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="bottom" secondItem="O4e-b1-qIW" secondAttribute="bottom" id="6dw-aP-iml"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="top" secondItem="BZi-9y-qes" secondAttribute="top" id="8ep-L3-8hd"/>
                             <constraint firstItem="O4e-b1-qIW" firstAttribute="top" secondItem="Wuj-9Y-9Ox" secondAttribute="bottom" constant="10" id="B0N-z1-fl6"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="HSK-Rc-Z7W" secondAttribute="trailing" id="Ch2-uP-cOH"/>
-                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="Mkv-6L-ldV"/>
                             <constraint firstAttribute="bottom" secondItem="HSK-Rc-Z7W" secondAttribute="bottom" id="Mzh-3C-tQc"/>
-                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="trailing" secondItem="BZi-9y-qes" secondAttribute="trailing" id="NuK-9x-otD"/>
                             <constraint firstItem="6MU-n6-3qr" firstAttribute="centerX" secondItem="cb3-Cq-VIu" secondAttribute="centerX" id="abp-zi-Cfz"/>
                             <constraint firstItem="HSK-Rc-Z7W" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="hY5-U6-pE7"/>
                             <constraint firstItem="O4e-b1-qIW" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="qAQ-EV-nck"/>
                             <constraint firstItem="BZi-9y-qes" firstAttribute="trailing" secondItem="O4e-b1-qIW" secondAttribute="trailing" id="syq-VP-ayj"/>
+                            <constraint firstItem="Wuj-9Y-9Ox" firstAttribute="leading" secondItem="BZi-9y-qes" secondAttribute="leading" id="v1x-7e-Ikd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4U2-RF-nz1">

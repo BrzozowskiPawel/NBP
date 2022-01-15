@@ -43,6 +43,10 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     var firstDate: String?
     var secondDate: String?
     
+    // Initial Dates. If user select wrong range of data this values will be used
+    var initialFirstDate: String?
+    var initialSecondDate: String?
+    
     // Storing data abour currency to dispaly
     var currencyToDisplay: currencyModel?
     
@@ -86,7 +90,8 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         return chartView
     }()
     
-    
+    // Inidates if first date from range have been setted
+    var firstDateSetted: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,13 +106,11 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         
         // Get new date and set label acording to it.
+        // This also set up initial range dates to allow perfoming request in next step.
         setUpInitialDateLabel()
         
         // Dowload timeline rates
-        // Create a valid string URL and perform a request.
-        createAndStartDowloadSpinner()
-        let stringURL = createValidURLToApi()
-        myAPICaller.getData(from: stringURL)
+        fetchDataFromAPI()
         
         // Set the ViewCotroller as the datasoruce and delgate of TableView
         tableView.delegate = self
@@ -126,6 +129,22 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         floatingButton.addTarget(self, action: #selector(setNewDateRange), for: .touchUpInside)
         view.addSubview(floatingButton)
     }
+    
+    func fetchDataFromAPI() {
+        // Create a initial dowload spinner
+        createAndStartDowloadSpinner()
+        
+        // Create a valid string URL and perform a request.
+        let stringURL = createValidURLToApi()
+        
+        // Make sure that url isn't nil.
+        // There might be a error with creating a valild URL.
+        if let stringURL = stringURL {
+            myAPICaller.getData(from: stringURL)
+        }
+        
+    }
+    
     func setNewRangeLabel(firstDate date1: String, secondDate date2: String) {
         rangeLabel.text = "Price from "+date1+" to "+date2
         
@@ -143,12 +162,20 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         let dateTodayString = formatter.string(from: currentDateTime)
         
         // Date 2 weeks before
-        let dateBefore = Date().addWeek(noOfWeeks: -2)
+        let dateBefore = Date().addWeek(noOfWeeks: -24)
         let dateBeforeString = formatter.string(from: dateBefore)
         
         self.firstDate = dateBeforeString
         self.secondDate = dateTodayString
         
+        // Set initial values for range dates.
+        // This values will be used in case user set wrong range.
+        if initialFirstDate == nil && initialSecondDate == nil {
+            self.initialFirstDate = dateBeforeString
+            self.initialSecondDate = dateTodayString
+        }
+        
+        // Update label with proper values.
         setNewRangeLabel(firstDate: dateBeforeString, secondDate: dateTodayString)
         
     }
@@ -197,7 +224,7 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         lineChart.data = data
     }
     
-    func createValidURLToApi() -> String{
+    func createValidURLToApi() -> String?{
         guard firstDate != nil, secondDate != nil else {
             print("DATES ARE EMPTY")
             return ""
@@ -208,10 +235,58 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         if let currencyToDisplay = currencyToDisplay {
             return "https://api.nbp.pl/api/exchangerates/rates/a/"+currencyToDisplay.code+"/"+dateRange+"/?format=json"
         } else {
-            return "ERROR"
+            return nil
         }
     }
     
+//    func loadNewDataFromAPI() {
+//        // Dowload timeline rates
+//        // Create a valid string URL and perform a request.
+//        let stringURL = createValidURLToApi()
+//        myAPICaller.getData(from: stringURL)
+//    }
+    
+    @objc func donePressed() {
+        // Initialize the date formatter
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        // Get the date as String
+        let selectedDate = formatter.string(from: datePicker.date)
+        
+        if firstDateSetted == false {
+            firstDate = selectedDate
+            setNewRangeLabel(firstDate: firstDate!, secondDate: "")
+            
+            // Set flag that firstDate have been setted
+            firstDateSetted = true
+            
+        } else if firstDateSetted == true {
+            secondDate = selectedDate
+            setNewRangeLabel(firstDate: firstDate!, secondDate: secondDate!)
+            
+            fetchDataFromAPI()
+            
+            // Hide background of view.
+            // TableView cells will be fully visible now
+            datePickerBackgroundView.alpha = 0
+            
+            // Show flaoting button again
+            floatingButton.alpha = 1
+            
+            toolBar.removeFromSuperview()
+            datePicker.removeFromSuperview()
+            
+            // Reset this flag value to initial state.
+            firstDateSetted = false
+        }
+
+    }
+    
+}
+
+// MAKR: - Floating button - set a new range
+extension CurrencyDetailViewController {
     // Button callendar
     @objc func setNewDateRange(_ sender: Any) {
         // Hide floating button
@@ -246,47 +321,8 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         self.view.addSubview(toolBar)
         
     }
-    
-    func loadNewDataFromAPI() {
-        // Dowload timeline rates
-        // Create a valid string URL and perform a request.
-        let stringURL = createValidURLToApi()
-        myAPICaller.getData(from: stringURL)
-    }
-    
-    @objc func donePressed() {
-        // Initialize the date formatter
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-
-        // Get the date as String
-        let selectedDate = formatter.string(from: datePicker.date)
-        
-        if firstDate == nil {
-            firstDate = selectedDate
-            print("Setted first date to: \(firstDate)")
-            setNewRangeLabel(firstDate: firstDate!, secondDate: "")
-        } else if firstDate != nil && secondDate == nil {
-            secondDate = selectedDate
-            print("Setted first date to: \(secondDate)")
-            setNewRangeLabel(firstDate: firstDate!, secondDate: secondDate!)
-            loadNewDataFromAPI()
-            
-            // Hide background of view.
-            // TableView cells will be fully visible now
-            datePickerBackgroundView.alpha = 0
-            
-            // Show flaoting button again
-            floatingButton.alpha = 1
-            
-            toolBar.removeFromSuperview()
-            datePicker.removeFromSuperview()
-        }
-
-//        self.view.endEditing(true)
-    }
-    
 }
+
 
 // MARK: - Creating and destroying initial dowload spinner
 extension CurrencyDetailViewController {
@@ -332,10 +368,11 @@ extension CurrencyDetailViewController: APIProtocol {
             
             // After data is dowloaded start creating data to populate the chart.
             setChartData()
+            // Reload new data to the tablewView
             tableView.reloadData()
             
-            firstDate = nil
-            secondDate = nil
+//            firstDate = nil
+//            secondDate = nil
             
             // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
             stopAndDestroySpinner()
