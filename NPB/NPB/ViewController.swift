@@ -56,22 +56,6 @@ class ViewController: UIViewController {
         fetchDataFromAPI(segmentedControlIndex: tableTypeSegmentedController.selectedSegmentIndex)
     }
     
-    // Create a dowload spinner
-    func createAndStartDowloadSpinner() {
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
-
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-    
-    // Destroy a dowload spinner
-    func stopAndDestroySpinner() {
-        spinner.stopAnimating()
-        spinner.removeFromSuperview()
-    }
-    
     // Functions that fetch data from API.
     func fetchDataFromAPI(segmentedControlIndex: Int) {
         // If it's not a refresh then show dowloading spinner
@@ -109,8 +93,25 @@ class ViewController: UIViewController {
             return
         }
     }
-    
+}
 
+// MARK: - Creating and destroying initial dowload spinner
+extension ViewController {
+    // Create a dowload spinner
+    func createAndStartDowloadSpinner() {
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    // Destroy a dowload spinner
+    func stopAndDestroySpinner() {
+        spinner.stopAnimating()
+        spinner.removeFromSuperview()
+    }
 }
 // MARK: - Prepeare for segue
 extension ViewController {
@@ -215,6 +216,8 @@ extension ViewController: APIProtocol {
                 refreshingIsActive.toggle()
                 refreshControl.endRefreshing()
             } else {
+                // If it's manual data refreshing via pulling down tableView
+                // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
                 stopAndDestroySpinner()
             }
         }
