@@ -58,10 +58,9 @@ class ViewController: UIViewController {
     
     // Functions that fetch data from API.
     func fetchDataFromAPI(segmentedControlIndex: Int) {
-        // If it's not a refresh then show dowloading spinner
-        if !refreshingIsActive {
-            createAndStartDowloadSpinner()
-        }
+        // Start spinner for initial dowload
+        // This function autocheck if it should show spinner (it is initial dowload not manual refresh).
+       createAndStartDowloadSpinner()
         
         var tabletype = ""
         switch segmentedControlIndex {
@@ -99,18 +98,25 @@ class ViewController: UIViewController {
 extension ViewController {
     // Create a dowload spinner
     func createAndStartDowloadSpinner() {
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
+        // If it's not a manula refresh by user then show dowloading spinner.
+        if !refreshingIsActive {
+            spinner.translatesAutoresizingMaskIntoConstraints = false
+            spinner.startAnimating()
+            view.addSubview(spinner)
 
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        }
     }
     
     // Destroy a dowload spinner
     func stopAndDestroySpinner() {
-        spinner.stopAnimating()
-        spinner.removeFromSuperview()
+        // Make sure that this is initial dowload not manual refreshing by user (if it is, than no spinner will be created).
+        // If is manual refreshing than flag refreshingIsActive should be true.
+        if !refreshingIsActive {
+            spinner.stopAnimating()
+            spinner.removeFromSuperview()
+        }
     }
 }
 // MARK: - Prepeare for segue
@@ -215,11 +221,9 @@ extension ViewController: APIProtocol {
             if refreshingIsActive {
                 refreshingIsActive.toggle()
                 refreshControl.endRefreshing()
-            } else {
-                // If it's manual data refreshing via pulling down tableView
-                // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
-                stopAndDestroySpinner()
             }
+            // Destroy created spinner that indicates that data is being dowloaded on start of the screen.
+            stopAndDestroySpinner()
         }
     }
     
