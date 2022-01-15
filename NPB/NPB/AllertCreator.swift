@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-func createCustomAllert(alertTitle alertTitle: String, alertMessage alertMess: String, actionTitle actionTitle: String) -> UIAlertController {
-    let alert = UIAlertController(title: alertTitle, message: alertMess, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: nil))
+func createCustomAllert(alertTitle alertTitleString: String, alertMessage alertMess: String, actionTitle actionTitleString: String) -> UIAlertController {
+    let alert = UIAlertController(title: alertTitleString, message: alertMess, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: actionTitleString, style: .default, handler: nil))
     
     return alert
 }
