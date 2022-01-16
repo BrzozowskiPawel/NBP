@@ -64,6 +64,7 @@
 		0471B9E927945C1900DB91EC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04FF343227921C48003EED5E /* AllertCreator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -73,6 +74,13 @@
 			children = (
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		0471B9EB27945C5A00DB91EC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		04B451EE278F4195001D1CD3 = {
@@ -99,6 +107,7 @@
 				0471B9E827945C1300DB91EC /* Model */,
 				0471B9E927945C1900DB91EC /* View */,
 				0471B9EA27945C1E00DB91EC /* Controller */,
+				0471B9EB27945C5A00DB91EC /* Helpers */,
 				04B451FA278F4195001D1CD3 /* AppDelegate.swift */,
 				046CF9142792FD6700D004F9 /* DetailTableViewCell.swift */,
 				04B451FC278F4195001D1CD3 /* SceneDelegate.swift */,
@@ -111,7 +120,6 @@
 				04B45203278F4196001D1CD3 /* Assets.xcassets */,
 				04B45205278F4196001D1CD3 /* LaunchScreen.storyboard */,
 				04B45208278F4196001D1CD3 /* Info.plist */,
-				04FF343227921C48003EED5E /* AllertCreator.swift */,
 			);
 			path = NPB;
 			sourceTree = "<group>";
