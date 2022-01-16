@@ -1,45 +1,20 @@
 //
-//  CurrencyTableViewCell.swift
+//  CurrencyTableViewCellView.swift
 //  NPB
 //
-//  Created by Paweł Brzozowski on 13/01/2022.
+//  Created by Paweł Brzozowski on 16/01/2022.
 //
 
-import UIKit
+import Foundation
 
-class CurrencyTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var codeLabel: UILabel!
-    @IBOutlet weak var currencyLabel: UILabel!
-    @IBOutlet weak var averageRateLabel: UILabel!
-    @IBOutlet weak var date1Label: UILabel!
-    @IBOutlet weak var date2Label: UILabel!
-    @IBOutlet weak var cellBackgroundView: UIView!
-    
-    
-    // Storing data abour currency to dispaly
-    var currencyToDisplay: currencyModel?
-    // Storing data about date of dowloading
-    var dateOfDownloading: String?
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        
-        // Round corners of cellBackgroundView
-        cellBackgroundView.layer.cornerRadius = 15
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
+extension CurrencyTableViewCell {
     // Configure cell to display it properly.
     func displayCurrencyCell(curentCurrency currency: currencyModel, downloadDate date: String, segmentedControlIndexValue segmentedControlIndex: Int) {
         // Clean up the cell before displaing next currency! Because cells are reusable
         cleanUpOutlets()
+        
+        // Round corners of cellBackgroundView
+        cellBackgroundView.layer.cornerRadius = 15
         
         // Keep a refrence of the currency
         currencyToDisplay = currency
@@ -80,7 +55,6 @@ class CurrencyTableViewCell: UITableViewCell {
                 date2Label.alpha = 1
             }
         }
-        
     }
     
     // Function requaired to clean up outlets because it's reusable cell.
@@ -95,9 +69,8 @@ class CurrencyTableViewCell: UITableViewCell {
         averageRateLabel.alpha = 0
         date1Label.alpha = 0
         date2Label.alpha = 0
-        
+
         averageRateLabel.textColor = .black
         date1Label.textColor = .black
     }
-
 }

@@ -8,15 +8,13 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableTypeSegmentedController: UISegmentedControl!
     
     // Spiner to show dowloading at the beggining
     var spinner = UIActivityIndicatorView(style: .large)
     
-    
-    // Refreshing variables.
+    // Refreshing variables. Responsible for pull to refresh acction.
     let refreshControl = UIRefreshControl()
     var refreshingIsActive = false // This flag is responsible for turning on and off refresh spinner insde of tableView
     
@@ -62,6 +60,8 @@ class ViewController: UIViewController {
         // This function autocheck if it should show spinner (it is initial dowload not manual refresh).
        createAndStartDowloadSpinner()
         
+        // Set proper value for variable tabletype.
+        // Acording to the selescted index of segmentedController app should perform different API request.
         var tabletype = ""
         switch segmentedControlIndex {
         case 0:
@@ -73,12 +73,15 @@ class ViewController: UIViewController {
         default:
             return
         }
+        
         // Create a valid string URL and perform a request.
         let stringURL = "https://api.nbp.pl/api/exchangerates/tables/"+tabletype+"/?format=json"
+        // Use APICaller object to perform request by pasing url (string url) value to it.
         myAPICaller.getData(from: stringURL)
     }
-    
-    
+}
+// MARK: - SegmentedController supervision
+extension ViewController {
     // Dowload data from API acording to table type.
     @IBAction func tableTapeChanged(_ sender: UISegmentedControl) {
         switch tableTypeSegmentedController.selectedSegmentIndex {
@@ -94,31 +97,6 @@ class ViewController: UIViewController {
     }
 }
 
-// MARK: - Creating and destroying initial dowload spinner
-extension ViewController {
-    // Create a dowload spinner
-    func createAndStartDowloadSpinner() {
-        // If it's not a manula refresh by user then show dowloading spinner.
-        if !refreshingIsActive {
-            spinner.translatesAutoresizingMaskIntoConstraints = false
-            spinner.startAnimating()
-            view.addSubview(spinner)
-
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        }
-    }
-    
-    // Destroy a dowload spinner
-    func stopAndDestroySpinner() {
-        // Make sure that this is initial dowload not manual refreshing by user (if it is, than no spinner will be created).
-        // If is manual refreshing than flag refreshingIsActive should be true.
-        if !refreshingIsActive {
-            spinner.stopAnimating()
-            spinner.removeFromSuperview()
-        }
-    }
-}
 // MARK: - Prepeare for segue
 extension ViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -129,7 +107,6 @@ extension ViewController {
         guard indexPath != nil else {
             return
         }
-        
         // Get currency that have been tapped on
         // Index is safe to unwarp due to guard statment
         let selectedCurrency = currencyArray[indexPath!.row]
@@ -140,23 +117,6 @@ extension ViewController {
         // Pass the data to the detail view contorller (aka CurrencyDetailViewController)
         detailViewController.currencyToDisplay = selectedCurrency
     }
-}
-
-// MARK: - Navigation controller hiding/showing
-extension ViewController {
-    // Turn off showing Navigation Controller on loading this VC
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-
-    // When suer leaves this VC tun on showing Navigation Controller
-    // On next screen title is requaired.
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
 }
 
 // MARK: - Article Model Protocool/ Delgate Methods
@@ -202,7 +162,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - API Protocool-Delgate Methods
-
 // Adapt APIProtocol to retrieve data from APICaller
 extension ViewController: APIProtocol {
     

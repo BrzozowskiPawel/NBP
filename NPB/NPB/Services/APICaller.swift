@@ -30,7 +30,6 @@ class APICaller {
         // If link is directing to the rates data, change this parametr.
         // Changing reatesrequest to true will use different struct with JSON decodin.
         if urlString.contains("tables") {
-            print("RATES TYPE REQUEST")
             notTimelineReguest = true
         }
         
@@ -53,7 +52,6 @@ class APICaller {
                 do {
                     // Parse the JSON into the desired structure.
                     if notTimelineReguest {
-                        print("Standart request")
                         let APIResponseStandart = try decoder.decode([APIData].self, from: data!)
                         
                         // Everything connected with UI should be in main thread
@@ -64,14 +62,12 @@ class APICaller {
                         }
                     }
                     else {
-                        print("Timeline request")
                         let APIResponseTimeline = try decoder.decode(APIDataTimeline.self, from: data!)
                         
                         // Everything connected with UI should be in main thread
                         DispatchQueue.main.async {
                             // Parse the returned JSON into article instances and pass it back to the view controller with the protocol and deleagte pattern
                             self.delegate?.dataRetrieved(nil, retrievedTimelinetData: APIResponseTimeline)
-    //                        self.delegate?.dataRetrieved(APIResponse[0])
                         }
                     }
                     

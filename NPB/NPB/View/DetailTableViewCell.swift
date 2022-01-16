@@ -14,6 +14,7 @@ class DetailTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    // Keeping a reference to rate
     var rate: timelineRate?
     
     override func awakeFromNib() {
@@ -23,13 +24,11 @@ class DetailTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
+    // Configure displaing of an cell
     func configureCell(curentRate rateObj: timelineRate, numberOfRate rateNo: Int){
-//        // Clean up the cell before displaing next currency! Because cells are reusable
-//        cleanUpOutlets()
         
         // Make backgroundView rounded
         numberBGView.layer.cornerRadius = 17
@@ -37,18 +36,12 @@ class DetailTableViewCell: UITableViewCell {
         // Keep a refrence to the rate
         self.rate = rateObj
         
+        // Set proper cell text values to labels
         numberLabel.text = String(rateNo)
-        
         priceLabel.text = String(format: "%0.4f", rate!.mid) + " PLN"
-        
         dateLabel.text = rate?.effectiveDate
         
         
     }
-    
-//    // FUnction requaired to clean up outlets because it's reusable cell.
-//    private func cleanUpOutlets() {
-//
-//    }
 
 }

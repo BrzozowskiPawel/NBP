@@ -17,23 +17,8 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
     
     // Spiner to show dowloading at the beggining
     var spinner = UIActivityIndicatorView(style: .large)
-    
-    private let floatingButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        button.backgroundColor = .systemBlue
-        let img =  UIImage(systemName: "calendar.badge.plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: UIImage.SymbolWeight.medium))
-        
-        button.setImage(img, for: .normal)
-        button.tintColor = .white
-        button.setTitleColor(UIColor.white, for: .normal)
-        
-        button.layer.shadowRadius = 10
-        button.layer.shadowOpacity = 0.3
-        
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 30
-        return button
-    }()
+
+    var floatingButton = UIButton()
     
     // DatePicker and toolbar for datpicker
     var toolBar = UIToolbar()
@@ -126,11 +111,37 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         lineChart.delegate = self
         
         // Add floating button
+        configureFloatingButton()
         floatingButton.frame = CGRect(x: view.frame.size.width - 90, y: view.frame.size.height - 120, width: 60, height: 60)
         floatingButton.addTarget(self, action: #selector(setNewDateRange), for: .touchUpInside)
         view.addSubview(floatingButton)
     }
     
+    // Functions creating a url to make an API call.
+    // URL depens of currency that have been selected and also on rnage of dates.
+    // Each time this data is changes new url is being created to allow new API call.
+    func createValidURLToApi() -> String?{
+        guard firstDate != nil, secondDate != nil else {
+            print("DATES ARE EMPTY")
+            return nil
+        }
+        
+        // Get first and second date as formated string
+        let firstDateString = getDateAsString(DateToFormat: firstDate!, dateFormatString: "yyyy-MM-dd")
+        let secondDateString = getDateAsString(DateToFormat: secondDate!, dateFormatString: "yyyy-MM-dd")
+        
+        // Create date range as string
+        let dateRange = firstDateString+"/"+secondDateString
+        
+        if let currencyToDisplay = currencyToDisplay {
+            return "https://api.nbp.pl/api/exchangerates/rates/a/"+currencyToDisplay.code+"/"+dateRange+"/?format=json"
+        } else {
+            return nil
+        }
+    }
+    
+    // Function that dowload data form API using delegate-protocol method.
+    // Data is saved to instatnces in this class.
     func fetchDataFromAPI() {
         // Create a initial dowload spinner
         createAndStartDowloadSpinner()
@@ -143,33 +154,22 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         if let stringURL = stringURL {
             myAPICaller.getData(from: stringURL)
         }
-        
     }
     
-    func setNewRangeLabelText(firstDate date1: String, secondDate date2: String) {
-        rangeLabel.text = "Price from "+date1+" to "+date2
-    }
-    
-    func getDateAsString(DateToFormat date: Date) -> String {
-        // Initialize the date formatter
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        // Return formated date
-        return formatter.string(from: date)
-    }
-    
+    // Set up initial date for range.
+    // Initial range is today and -13 weeks earlier (API documentations says 93 days is max. value)
+    // Also update a label to display proper range.
     func setUpInitialDateAndUpdateLabel() {
         // Gets the current date and time
         let currentDateTime = Date()
         
         // Get the date as String
-        let dateTodayString = getDateAsString(DateToFormat: currentDateTime)
+        let dateTodayString = getDateAsString(DateToFormat: currentDateTime, dateFormatString: "yyyy-MM-dd")
         
         // Date 13 weeks before - because API specyfications says that max range is 93 days.
         // Hoever out of the scope 6 moths also worked.
         let dateBefore = Date().addWeek(noOfWeeks: -13)
-        let dateBeforeString = getDateAsString(DateToFormat: dateBefore)
+        let dateBeforeString = getDateAsString(DateToFormat: dateBefore, dateFormatString: "yyyy-MM-dd")
         
         // Setup range's dates
         self.firstDate = dateBefore
@@ -182,7 +182,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         // Update label with proper values.
         setNewRangeLabelText(firstDate: dateBeforeString, secondDate: dateTodayString)
-        
     }
     
     // Load data to the chart
@@ -211,7 +210,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         
         // Set set color to white
         set.setColor(.white)
-        
         set.drawHorizontalHighlightIndicatorEnabled = false
         
         // Set fill of under the line
@@ -229,25 +227,6 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         lineChart.data = data
     }
     
-    func createValidURLToApi() -> String?{
-        guard firstDate != nil, secondDate != nil else {
-            print("DATES ARE EMPTY")
-            return ""
-        }
-        
-        // Get first and second date as formated string
-        let firstDateString = getDateAsString(DateToFormat: firstDate!)
-        let secondDateString = getDateAsString(DateToFormat: secondDate!)
-        
-        // Create date range as string
-        let dateRange = firstDateString+"/"+secondDateString
-        
-        if let currencyToDisplay = currencyToDisplay {
-            return "https://api.nbp.pl/api/exchangerates/rates/a/"+currencyToDisplay.code+"/"+dateRange+"/?format=json"
-        } else {
-            return nil
-        }
-    }
     
     // This functions set vales of First and Second date to the inital values if there was an error with choosing new range.
     func useInitialDateValues() {
@@ -255,79 +234,23 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         self.secondDate = self.lastSecondDate
     }
     
-    // Handle error when suer set second date before first
-    func handleRangeErrorSecodDateIsBefore() {
-        // Because selected rnage is inavlid use initial values.
-        useInitialDateValues()
-        
-        // Get first and second date as formated string
-        let firstDateString = getDateAsString(DateToFormat: firstDate!)
-        let secondDateString = getDateAsString(DateToFormat: secondDate!)
-        
-        // Create an allert to inform user about this error
-        let alert = createCustomAllert(alertTitle: "Second date cannot be before first date.", alertMessage: "Sorry but selected range is invalid. Your first date is: \(firstDateString) and second is \(secondDateString). Please set range again.", actionTitle: "OK")
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    // Handle error when date is in futre
-    func handleRangeErrorDateIsFuture() {
-        // Because selected rnage is inavlid use initial values.
-        useInitialDateValues()
-        
-        // Get first and second date as formated string
-        let firstDateString = getDateAsString(DateToFormat: firstDate!)
-        let secondDateString = getDateAsString(DateToFormat: secondDate!)
-        
-        // Create an allert to inform user about this error
-        let alert = createCustomAllert(alertTitle: "Range cannot be in fute", alertMessage: "Sorry but selected range is invalid. Your first date is: \(firstDateString) and second is \(secondDateString). Make sure that dates arent future and select a range again.", actionTitle: "OK")
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func handleRangeErrorMaxRange(days numOfdays: Int) {
-        // Because selected rnage is inavlid use initial values.
-        useInitialDateValues()
-        
-        // Create an allert to inform user about this error
-        let alert = createCustomAllert(alertTitle: "Max range is 93 days.", alertMessage: "Sorry but selected range is invalid. Max range is 93 days and your range was \(numOfdays)", actionTitle: "OK")
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     // Calcute how many days have passed between 2 dates
     func daysBetween(start: Date, end: Date) -> Int {
             return Calendar.current.dateComponents([.day], from: start, to: end).day! + 1
         }
     
-    // Perform chaeck to make sure that dates in range is correct
-    func performErrorCheck() {
-        // - first date must be eariler then second date
-        // - non of dates can be after current date
-        // - single rnage cannot be larger than 93 days
-        if secondDate! < firstDate! {
-            // Handling this error
-            handleRangeErrorSecodDateIsBefore()
-            return
-        }
-        let currentDate = Date()
-        if secondDate! > currentDate || firstDate! > currentDate {
-            handleRangeErrorDateIsFuture()
-            return
-        }
-        
-        let days = daysBetween(start: firstDate!, end: secondDate!)
-        // KEEP IN MIND THAT API DOCUMENATION SAYS THAT MAX ANGE IS 93 DAYS
-        if days > 367 {
-            handleRangeErrorMaxRange(days: days)
-            return
-        }
-    }
-    
+    // Done button on datePicker pressed.
+    // First time done button is pressed the first date in range is saved.
+    // Second time, the second date is saved.
+    // Then this function also perform check for error in range.
+    // If there is no error and range is valid, new API call is being made.
     @objc func donePressed() {
         if firstDateSetted == false {
             // Set new value for firstDate
             firstDate = datePicker.date
             
             // Get a String value of firstDate
-            let firstDateString = getDateAsString(DateToFormat: firstDate!)
+            let firstDateString = getDateAsString(DateToFormat: firstDate!, dateFormatString: "yyyy-MM-dd")
             
             // Update label
             setNewRangeLabelText(firstDate: firstDateString, secondDate: "")
@@ -349,8 +272,8 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
             performErrorCheck()
             
             // Get a String value of secondDate
-            let firstDateString = getDateAsString(DateToFormat: firstDate!)
-            let secondDateString = getDateAsString(DateToFormat: secondDate!)
+            let firstDateString = getDateAsString(DateToFormat: firstDate!, dateFormatString: "yyyy-MM-dd")
+            let secondDateString = getDateAsString(DateToFormat: secondDate!, dateFormatString: "yyyy-MM-dd")
             
             // Update label
             setNewRangeLabelText(firstDate: firstDateString, secondDate: secondDateString)
@@ -373,11 +296,10 @@ class CurrencyDetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
+    // Manually refresh data pressing right BarButton.
     @IBAction func refreshButtonPressed(_ sender: UIBarButtonItem) {
         fetchDataFromAPI()
     }
-    
-    
 }
 
 // MAKR: - Floating button - set a new range
@@ -391,27 +313,29 @@ extension CurrencyDetailViewController {
         datePickerBackgroundView.alpha = 1
         datePickerBackgroundView.backgroundColor = UIColor.white
         
+        // Create datePicker
         datePicker = UIDatePicker.init()
         datePicker.backgroundColor = UIColor.white
-                    
         datePicker.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
-        
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
-        
+        // Add datePicker to the view
         self.view.addSubview(datePicker)
         
-        
+        // Place datePicker
         let xConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
         let yConstraint = NSLayoutConstraint(item: datePicker, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 290)
         
         NSLayoutConstraint.activate([xConstraint, yConstraint])
         
+        // Add toolBar with done button.
         toolBar = UIToolbar(frame: CGRect(x: 0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50))
         toolBar.items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))]
             toolBar.sizeToFit()
+        
+        // Add toolBar
         self.view.addSubview(toolBar)
         
     }
@@ -422,10 +346,12 @@ extension CurrencyDetailViewController {
 extension CurrencyDetailViewController {
     // Create a dowload spinner
     func createAndStartDowloadSpinner() {
+        // Create spinner and add it to the view
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.startAnimating()
         view.addSubview(spinner)
 
+        // Place spinner
         spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
@@ -435,29 +361,6 @@ extension CurrencyDetailViewController {
         spinner.stopAnimating()
         spinner.removeFromSuperview()
     }
-}
-
-// MARK: - tableView functions
-extension CurrencyDetailViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currencyTimelineArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Get a cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RateCell", for: indexPath) as! DetailTableViewCell
-        
-        // Get the data needed to display
-        let curentRate = currencyTimelineArray[indexPath.row]
-        
-        // Cusotmize cell
-        cell.configureCell(curentRate: curentRate, numberOfRate: indexPath.row)
-        
-        // return the cell
-        return cell
-    }
-    
-    
 }
 
 // MARK: - Delegate-Protocol API extension
@@ -477,10 +380,5 @@ extension CurrencyDetailViewController: APIProtocol {
     }
 }
 
-extension Date {
-    func addWeek(noOfWeeks: Int) -> Date {
-    return Calendar.current.date(byAdding: .weekOfYear, value: noOfWeeks, to: self)!
-    }
-}
    
 

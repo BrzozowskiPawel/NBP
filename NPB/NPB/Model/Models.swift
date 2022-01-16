@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Strucutres requaired to parse JSON from tables
 struct APIData: Codable{
     let table: String
     let no: String
@@ -22,8 +23,7 @@ struct currencyModel: Codable {
     let ask: Double?
 }
 
-
-
+// Strucutres fof detail view. Parsing a JSON from rates
 struct APIDataTimeline: Codable{
     let table: String
     let currency: String
