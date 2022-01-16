@@ -134,9 +134,9 @@
 				04C07E8427949FD10081C8ED /* Services */,
 				04B451FA278F4195001D1CD3 /* AppDelegate.swift */,
 				04B451FC278F4195001D1CD3 /* SceneDelegate.swift */,
-				04B45203278F4196001D1CD3 /* Assets.xcassets */,
 				04B45200278F4195001D1CD3 /* Main.storyboard */,
 				04B45205278F4196001D1CD3 /* LaunchScreen.storyboard */,
+				04B45203278F4196001D1CD3 /* Assets.xcassets */,
 				04B45208278F4196001D1CD3 /* Info.plist */,
 			);
 			path = NPB;
