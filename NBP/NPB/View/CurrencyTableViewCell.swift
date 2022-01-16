@@ -1,13 +1,37 @@
 //
-//  CurrencyTableViewCellView.swift
-//  NPB
+//  CurrencyTableViewCell.swift
+//  NBP
 //
-//  Created by Paweł Brzozowski on 16/01/2022.
+//  Created by Paweł Brzozowski on 13/01/2022.
 //
 
-import Foundation
+import UIKit
 
-extension CurrencyTableViewCell {
+class CurrencyTableViewCell: UITableViewCell {
+
+    @IBOutlet weak var codeLabel: UILabel!
+    @IBOutlet weak var currencyLabel: UILabel!
+    @IBOutlet weak var averageRateLabel: UILabel!
+    @IBOutlet weak var date1Label: UILabel!
+    @IBOutlet weak var date2Label: UILabel!
+    @IBOutlet weak var cellBackgroundView: UIView!
+    
+    
+    // Storing data about currency to dispaly
+    var currencyToDisplay: currencyModel?
+    // Storing data about date of download
+    var dateOfDownloading: String?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        // Configure the view for the selected state
+    }
+    
     // Configure cell to display it properly.
     func displayCurrencyCell(curentCurrency currency: currencyModel, downloadDate date: String, segmentedControlIndexValue segmentedControlIndex: Int) {
         // Clean up the cell before displaing next currency! Because cells are reusable
@@ -30,7 +54,7 @@ extension CurrencyTableViewCell {
         currencyLabel.text = currencyToDisplay?.currency
         currencyLabel.alpha = 1
         
-        // Set up rest of the cell depending on whether it is type A / B or C
+        // Set up the rest of the cell depending on whether it is type A/B or C
         if segmentedControlIndex == 0 || segmentedControlIndex == 1{
             averageRateLabel.text = String(format: "%0.4f", currencyToDisplay!.mid!) + " PLN"
             averageRateLabel.alpha = 1
@@ -41,7 +65,7 @@ extension CurrencyTableViewCell {
             }
             
         } else {
-            // Here averageRateLabel is ask price and date1 is bid price. The dtae is shown via date2 label
+            // Here averageRateLabel is asking price and date1 is the bid price. The date is being shown via date2 label
             averageRateLabel.text = "Ask: " + String(format: "%.4f", currencyToDisplay!.ask!)
             averageRateLabel.alpha = 1
             averageRateLabel.textColor = .systemRed
@@ -73,4 +97,5 @@ extension CurrencyTableViewCell {
         averageRateLabel.textColor = .black
         date1Label.textColor = .black
     }
+
 }

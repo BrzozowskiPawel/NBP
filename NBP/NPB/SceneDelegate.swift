@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  NPB
+//  NBP
 //
 //  Created by Paweł Brzozowski on 12/01/2022.
 //

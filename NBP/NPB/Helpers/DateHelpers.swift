@@ -1,6 +1,6 @@
 //
 //  Date2String.swift
-//  NPB
+//  NBP
 //
 //  Created by Paweł Brzozowski on 16/01/2022.
 //
@@ -17,6 +17,7 @@ func getDateAsString(DateToFormat date: Date, dateFormatString dateFormat: Strin
     return formatter.string(from: date)
 }
 
+// Return date that is + {x} weeks away
 extension Date {
     func addWeek(noOfWeeks: Int) -> Date {
     return Calendar.current.date(byAdding: .weekOfYear, value: noOfWeeks, to: self)!
