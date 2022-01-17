@@ -1,4 +1,5 @@
 # NBP currency app 🏦
+![Swift](https://img.shields.io/badge/swift-F54A2A?style=for-the-badge&logo=swift&logoColor=white) </br> </br>
 
 ## DEMO
 This project is a currency app made with NBP's API. </br>
@@ -87,3 +88,5 @@ Then use command `pod install` inside terminal to install selected pod:
 pod install
 ```
 
+</br> </br> </br>
+Made with ♥️ in Swift.
