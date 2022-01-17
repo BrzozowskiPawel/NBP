@@ -1,11 +1,3 @@
-[![Swift Version][swift-image]][swift-url]
-[![Build Status][travis-image]][travis-url]
-[![License][license-image]][license-url]
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/LFAlertController.svg)  
-[![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-
 # NBP currency app 🏦
 
 ## DEMO
@@ -28,7 +20,7 @@ Write a simple system support application from iOS 10, which displays the exchan
   - Pressing a cell with a currency moves to (2. Currency screen),
   - The user has the ability to refresh the data manually,
   - The screen should show the data loading CLIP.
-- Screen
+2. Detail Screen (range rates)
   - The title should include the currency name,
   - The screen displays the average exchange rates for the selected by the date user from the endpoints http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/{startDate}/{endDate}/
   - The user must be able to select dates on this screen.
