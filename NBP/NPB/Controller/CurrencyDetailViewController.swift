@@ -399,12 +399,10 @@ extension CurrencyDetailViewController {
             return
         }
         let currentDate = Date()
-        if secondDate! >= currentDate || firstDate! >= currentDate {
-            if secondDate! < firstDate! {
-                // Handle this error
-                handleRangeErrorDateIsFuture()
-                return
-            }
+        
+        if secondDate! > currentDate || firstDate! > currentDate {
+            handleRangeErrorDateIsFuture()
+            return
         }
         
         let days = daysBetween(start: firstDate!, end: secondDate!)
