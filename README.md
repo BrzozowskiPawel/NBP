@@ -17,23 +17,23 @@ Allows user to get all nessesary ifnormation about currencies. </br>
 Write a simple system support application from iOS 10, which displays the exchange rates downloaded from the National Bank of Poland's API (http://api.nbp.pl). </br>
 
 1. Main screen:
-  a. Displays the currency rates from the endpoint http://api.nbp.pl/api/exchangerates/tables/{table}/
-  b. You want to change the table you are displaying, the table parameter from the endpoint,
-  c. Cells from UIColleticon View or UITableView should be created other than system cells,
-  d. Cells should include information on:
-    i.. Date entered
-    ii. The name of the currency
-    iii. The currency code
-    iv. The average value of the course
-  e. Pressing a cell with a currency moves to (2. Currency screen),
-  f. The user has the ability to refresh the data manually,
-  g. The screen should show the data loading CLIP.
-2. Screen
-  a. The title should include the currency name,
-  b. The screen displays the average exchange rates for the selected by the date user from the endpoints http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/{startDate}/{endDate}/
-  c. The user must be able to select dates on this screen.
-  d. The user has the ability to refresh the data manually,
-  e. The screen should show the data loading CLIP.
+  - Displays the currency rates from the endpoint http://api.nbp.pl/api/exchangerates/tables/{table}/
+  - You want to change the table you are displaying, the table parameter from the endpoint,
+  - Cells from UIColleticon View or UITableView should be created other than system cells,
+  - Cells should include information on:
+    - Date entered
+    - The name of the currency
+    - The currency code
+    - The average value of the course
+  - Pressing a cell with a currency moves to (2. Currency screen),
+  - The user has the ability to refresh the data manually,
+  - The screen should show the data loading CLIP.
+- Screen
+  - The title should include the currency name,
+  - The screen displays the average exchange rates for the selected by the date user from the endpoints http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/{startDate}/{endDate}/
+  - The user must be able to select dates on this screen.
+  - The user has the ability to refresh the data manually,
+  - The screen should show the data loading CLIP.
 
 ## REQUAIRMENTS 📄
 - iOS 10.0+
