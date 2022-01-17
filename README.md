@@ -87,5 +87,3 @@ Then use command `pod install` inside terminal to install selected pod:
 pod install
 ```
 
-
-
