@@ -1,6 +1,8 @@
 # NBP currency app 🏦
 ![Swift](https://img.shields.io/badge/swift-F54A2A?style=for-the-badge&logo=swift&logoColor=white) </br> </br>
 
+Disclaimer - files will change a bit in future as I will improve the implementation o the design pattern. </br>
+
 ## DEMO
 This project is a currency app made with NBP's API. </br>
 Allows user to get all necessary information about currencies. </br>
