@@ -88,7 +88,5 @@ Then use command `pod install` inside terminal to install selected pod:
 pod install
 ```
 
-</br> 
-Disclaimer - files will change a bit in future as I will improve the implementation o the design pattern. </br>
 </br> </br> </br>
 Made with ♥️ in Swift.
