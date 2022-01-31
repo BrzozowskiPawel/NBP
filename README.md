@@ -1,4 +1,5 @@
 # NBP currency app 🏦
+![Swift](https://img.shields.io/badge/swift-F54A2A?style=for-the-badge&logo=swift&logoColor=white) </br> </br>
 
 ## DEMO
 This project is a currency app made with NBP's API. </br>
@@ -60,13 +61,13 @@ Write a simple system support application from iOS 10, which displays the exchan
     - The average value of the course
   - Pressing a cell with a currency moves to (2. Currency screen),
   - The user has the ability to refresh the data manually,
-  - The screen should show the data loading CLIP.
+  - The screen should show the data loading 'indicator'.
 2. Detail Screen (range rates)
   - The title should include the currency name,
   - The screen displays the average exchange rates for the selected by the date user from the endpoints http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/{startDate}/{endDate}/
   - The user must be able to select dates on this screen.
   - The user has the ability to refresh the data manually,
-  - The screen should show the data loading CLIP.
+  - The screen should show the data loading 'indicator'.
 
 ## REQUAIRMENTS 📄
 - iOS 10.0+
@@ -87,5 +88,7 @@ Then use command `pod install` inside terminal to install selected pod:
 pod install
 ```
 
-
-
+</br> 
+Disclaimer - files will change a bit in future as I will improve the implementation o the design pattern. </br>
+</br> </br> </br>
+Made with ♥️ in Swift.
